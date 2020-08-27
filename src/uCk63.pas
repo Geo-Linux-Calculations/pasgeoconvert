@@ -10,28 +10,28 @@ uses MathExt, uGisCalc;
 
   TCk63Key = packed record
    Region: TCk63RegionChar;
-   CM    : double;   // центральный мередиан 1-й зоны
-   dB    : double;   // смещение начала КС от экватора на север в минутах
-   dX    : double;   // ---//--- в метрах на эллипсоиде Красовском
-   dY    : double;   // смещение начала отсчёта от осевого мередиана на запад в км.
-   Z6    : byte;     // признак 6-градусной зоны (если=1) иначе зона трёхградусная
-   Nr,Nc : byte;     // начальный номер номенклатуры  (Nr-строка  Nc-колонка)
-   rows  : word;     // всего номенклатур по вертикали (рядов)  "на север"
-   cols  : word;     // всего номенклатур по гориознатали (столбцов) "на восток"
-   // координаты прямоугольника описывающего все номенклатуры района
-   B0,L0 : double;   // юго-западный угол района (начало отсчёта номенклатур)
-   // маска наличия/отсуствия номенклатурных листов 1:100000 в рамке B0,L0 + B1,L1
-   Mask  : string;   // маска в формате шестнадцатеричного числа с пробелами
-   // маска задаётся побитно с юго-западного угла района с отсчётом на восток и север
-   // например имеется район с такой конфигурацией:
-   // * *** *** **   => 101110111011  (выварачиваем) => 101110111011 => 0 x BBB
-   // ************   => 111111111111  (выварачиваем) => 111111111111 => 0 x FFF
-   // ************   => 111111111111  (выварачиваем) => 111111111111 => 0 x FFF
-   // ***** *** **   => 111110111011  (выварачиваем) => 110111011111 => 0 x DDF
-   // отсчёт слева на право подряд, для восприятия разворачиваем маску
-   // потому что в программировании биты считают справа на лево
-   // нижний ряд 110111011111 (вывернут уже) = 1101 1101 1111 (сгрупирован) = 0xDDF
-   // формат БИТОВА_МАСКА:РЯДОВ[*]  *-шестиградусная зона, номенклатуры компонуются
+   CM    : double;   // central meridian of the 1st zone
+   dB    : double;   // shift of the beginning of the CS from the equator to the north in minutes
+   dX    : double;   // ---//--- in meters on the Krasovsky ellipsoid
+   dY    : double;   // offset of the origin from the axial meridian to the west in km.
+   Z6    : byte;     // sign of a 6-degree zone (if = 1) otherwise the zone is three-degree
+   Nr,Nc : byte;     // starting item number (Nr-line Nc-column)
+   rows  : word;     // total items vertically (rows) "northward"
+   cols  : word;     // total nomenclatures by city (columns) "to the east"
+   // coordinates of the rectangle describing all the nomenclatures of the region
+   B0,L0 : double;   // south-western corner of the area (origin of the nomenclature)
+   // presence / absence mask of nomenclature sheets 1: 100000 in a frame B0,L0 + B1,L1
+   Mask  : string;   // mask in hexadecimal format with spaces
+   // the mask is set bit by bit from the south-west corner of the area with the reference to the east and north
+   // for example, there is an area with this configuration:
+   // * *** *** **   => 101110111011  (get out) => 101110111011 => 0 x BBB
+   // ************   => 111111111111  (get out) => 111111111111 => 0 x FFF
+   // ************   => 111111111111  (get out) => 111111111111 => 0 x FFF
+   // ***** *** **   => 111110111011  (get out) => 110111011111 => 0 x DDF
+   // counting from left to right in a row, for perception we unfold the mask
+   // because in programming, bits are counted from right to left
+   // bottom row 110111011111 (turned out already) = 1101 1101 1111 (grouped) = 0xDDF
+   // format BITMASK:ROWS[*]  *-six-degree zone, items are assembled
   end;
 
   TNomenclature63 = packed record
@@ -45,12 +45,12 @@ uses MathExt, uGisCalc;
 
   TPointParam = packed record
     Region   : TCk63RegionChar;
-    nZone    : byte;      // номер зоны в районе
-    zWidth   : byte;      // ширина в градусах
-    CM       : double;    // центральный мередиан в градусах
-    Row,Col  : word;      // индекс (смещение) номенклатуры в зоне
-    geoPoint : T3dPoint;  // точка с СК42 радианы
-    pPoint   : T3dPoint;  // точка в СК63 метры
+    nZone    : byte;      // zone number in the area
+    zWidth   : byte;      // width in degrees
+    CM       : double;    // central meridian in degrees
+    Row,Col  : word;      // index (offset) of the item in the zone
+    geoPoint : T3dPoint;  // point with CK42 radians
+    pPoint   : T3dPoint;  // point in CK63 meters
   end;
   TPointParams = array of  TPointParam;
 
@@ -78,7 +78,7 @@ uses MathExt, uGisCalc;
       const Zone : byte = 1): T3dPoint; overload;
     function    PlaneToGeo(PntXY: T3dPoint;   Region:TCk63RegionChar): T3dPoint;
 
-    // найти точку прямоугольной сети
+    // find point of rectangular network
     function    SelectGrid(N: TNomenclature63; var gGrid : T3dMatrix):boolean;
     function    SelectZoneInfo(Region: TCk63RegionChar; Zone: byte): TPointParam;
     function    StringToNomenclature(const sNomen:String) : TNomenclature63;
@@ -89,29 +89,29 @@ uses MathExt, uGisCalc;
 implementation
 uses Math,SysUtils,Classes;
 
-//Осевой меридиан 1-ой зоны: FirstMainParallel
-//Ширина зоны: SecondMainParallel
-//Осевой меридиан: AxisMeridian
-//Номер зоны: ZoneNumber
+//Axial meridian of the 1st zone: FirstMainParallel
+//Zone width: SecondMainParallel
+//Axial meridian: AxisMeridian
+//Zone number: ZoneNumber
 
-//Смещение по горизонтали: в MainPointParallel, деленное на 100 000
-//Смещение по вертикали: в PoleLongitude, деленное на 10 000
+//Horizontal offset: in MainPointParallel divided by 100 000
+//Vertical offset: in PoleLongitude divided by 10 000
 
  const
   Ck63KeyArray : array[TCk63RegionChar] of TCk63Key =(
   (Region:'A';  CM:38.533333334; dB:7; dX:-12900.5630652885; dY:300; Z6:0; Nr:32; Nc:14;
-     rows:19;cols:24;  B0:37.383333333334; L0:39.5333333334;  // B0 (подобрано)
+     rows:19;cols:24;  B0:37.383333333334; L0:39.5333333334;  // B0 (selected)
      Mask:'FFFFFF:13 FFF:2 3FF:2 3F:2'),
 
   (Region:'B';  CM:75.2166666667; dB:9; dX:-16586.4382267995;  dY:300; Z6:0; Nr:39; Nc:18;
      rows:11;cols:22;  B0:42.833333334; L0:74.7166666667;  Mask:'3FFFFF:11'),
 
   (Region:'C';  CM:21.95;       dB:6; dX:-11057.625484533;  dY:250; Z6:0; Nr:35; Nc:12;
-     rows:39; cols:40;  B0:51.333333334; L0:18.95;  // B0* - грубое по СК42 !
+     rows:39; cols:40;  B0:51.333333334; L0:18.95;  // B0 * - rough according to CK42!
      Mask:'7FFFFFF:23 7FFFFFFFFF:2 7FFFFFFFFF:2 7FFFFFC000:9*'),
 
   (Region:'D';  CM:38.55;       dB:8; dX:-14743.500646044;  dY:250; Z6:0; Nr:38; Nc:31;
-     rows:30;cols:44;  B0:053.68333333334; L0:037.55;  // B0* (подобрано)
+     rows:30;cols:44;  B0:053.68333333334; L0:037.55;  // B0 * (selected)
      Mask:'3FE00:5 1FFFE00:2 1FFFFFF:1 FFFFFFFFFF:4 FFFFFFFFFFF:7 FFFFFFFFFFF:10*'),
 
   (Region:'E';  CM:77.766666667; dB:8; dX:-14743.500646044;  dY:300; Z6:0; Nr:42; Nc:26;     // +++
@@ -119,7 +119,7 @@ uses Math,SysUtils,Classes;
      Mask:'7FFFF:2 1FFFFFF:10'),
 
   (Region:'F';  CM:97.0333333334; dB:6; dX:-11057.625484533;  dY:250; Z6:0; Nr:00 ;Nc:00;
-     rows:37; cols:49; B0:46.666666667; L0:96.533333334;   // B0* - грубое по СК42 !
+     rows:37; cols:49; B0:46.666666667; L0:96.533333334;   // B0 * - rough according to CK42!
      Mask:'1FFFFFFFFFFFF:12 FFFFFFFFFFFF:25'),
 
   (Region:'G';  CM:121.7166666667; dB:9; dX:-16586.4382267995;  dY:300; Z6:0; Nr:12 ;Nc:17;
@@ -127,7 +127,7 @@ uses Math,SysUtils,Classes;
      Mask:'FFFFC0000:1 7FFFFFFC0000:13 3FFFFFFFC0000:7 3FFFFFFFFF000:5 FFFFFFFFFFFF:25'),
 
   (Region:'H';  CM:47.76666667; dB:8; dX:-14743.500646044;  dY:300; Z6:0; Nr:30; Nc:36;
-     rows:31; cols:33;  B0:42.6166666667; L0:46.766666667;   // B0* (подобрано)
+     rows:31; cols:33;  B0:42.6166666667; L0:46.766666667;   // B0 * (selected)
      Mask:'7FFE0:8 1FFFFFE0:7 3FFFFFFE0:1 3FFFFFFFF:2 FFFFFFFF:4 FFFFFFF0:2 1FFF0:1 1FF80:2'),
 
   (Region:'I';  CM:68.73333333; dB:7; dX:-12900.5630652885;  dY:250; Z6:0; Nr:31; Nc:37;
@@ -135,7 +135,7 @@ uses Math,SysUtils,Classes;
      Mask:'E00:1 1C000E00:1 1FFFFFF0:1 FFFFFFF0:2 FFFFFFFF:13'),
 
  (Region:'J';  CM:158.4666666667; dB:9; dX:-16586.4382267995;  dY:400; Z6:1; Nr:01; Nc:19;
-     rows:96; cols:97; B0:42.816666666667; L0:143.4666666667;  // B0 - грубое ( от 43 до 49 сек) стоит 49
+     rows:96; cols:97; B0:42.816666666667; L0:143.4666666667;  // B0 - rough (43 to 49 sec) costs 49
      Mask:'1FFFFFF:12 1FFFFFF800:12 FFFFFFFF80000:24 1FFFFFFFFFFFFFFFFFFС00000:4 '+
           '1FFFFFFFFFFFFFFFFFFС00000:34* 3FFFFFF000000000000000:10*'),
 
@@ -160,7 +160,7 @@ uses Math,SysUtils,Classes;
      Mask:'1FF800:1 FF800:1 FFFC0:2 3FFFF0:1 3FFFFF:12 1FFFFF:2 1FFF:4 FFF:6'),
 
   (Region:'Q';  CM:32.0333333333; dB:6; dX:-11057.625484533;  dY:400; Z6:1; Nr:34; Nc:19;
-     rows:58; cols:82;  B0:62.95; L0:29.0333333333;      // B0* (подобрано - 3 мин) !
+     rows:58; cols:82;  B0:62.95; L0:29.0333333333;      // B0 * (selected - 3 min)!
      Mask:'3FFFFFFFFFFFFFF:25* 3FFFFF000000000:4* 3FFFFFFFF000000000:5* '+
           'FFFFFFFFFFFFFF000000000:3* 3FFFFFFFC000000000000:10* '+
           '3FFFFFFFFFFFFFFFFFFC000:10*'),
@@ -175,7 +175,7 @@ uses Math,SysUtils,Classes;
           'FFFFFFFFFFFFFFFFFFFFFFFFF:10* FFFFFFFFFFFFC000000000FFFFF:12*'),
 
   (Region:'T';  CM:37.9833333334; dB:6; dX:-11057.625484533;  dY:300; Z6:0; Nr:33; Nc:13;
-     rows:25; cols:30;  B0:41.4833333333333334; L0:36.4833333334; // B0 с программы Олега !
+     rows:25; cols:30;  B0:41.4833333333333334; L0:36.4833333334; // B0 from Oleg's program!
      Mask:'3FFC0000:2 3FFF0000:2 3FFF000:2 3FFFFFF:6 FFFF:3 FFFC:1 FFF8:2 '+
           '1FF8:2 1F80:5'),
 
@@ -289,7 +289,7 @@ end;
 
 
 // =============================================================================
-// ГАУСА-КРЮГЕРА
+// GAUSS-KRUGER
 function TCk63Convertor.GaussForward(lp : T3dPoint; const Param : TPointParam): T3dPoint;
 var N, X       : extended;
     l_ro,l_ro2 : extended;
@@ -339,15 +339,15 @@ begin
    until (Abs(Delta)<=1e-8) or (i>253);
    B:=(rMax+rMin)/2;
   end;
-  // нашли Широту
+  // found Latitude
   cosB:=cos(B);
   t2:=sqr(tan(B));
   n2:=FKrassovsky.es*sqr(cosB)/(1-FKrassovsky.es);
-  // дуга в пределах зоны
+  // arc within a zone
   y:=(1e6*Frac(XY.Y/1E6)-Key.dY*1000)*sqrt(1-FKrassovsky.es*sqr(sin(B)))/FKrassovsky.a;
   y2:=sqr(y);
   z:=3+3*Byte(Key.Z6=1);
-  // осевой
+  // axial
   L0:=Key.CM+(Trunc(XY.Y/1E6)-1)*z;
   result.Y:=1-y2*((1+2*t2+n2)+y2*(0.25+1.4*t2+1.2*t2*t2+3*n2/10+0.4*t2*n2))/6;
   result.Y:=pi*(L0+y*result.Y*57.2958333333333333333/cosB)/180;
@@ -392,10 +392,10 @@ begin
   Finalize(result);
   M := FMask[xRegion];
   K := Ck63KeyArray[xRegion];
-  for i:=0 to LenGth(M)-1 do     // строки
+  for i:=0 to LenGth(M)-1 do     // rows
   begin
    j:=-1; nr:=true;
-   while j<LenGth(M[i])-1 do  // столбцы
+   while j<LenGth(M[i])-1 do  // columns
    begin
     inc(j);
     if M[i][j]=0 then continue;
@@ -435,7 +435,7 @@ var i       : TCk63RegionChar;
     r1, r2  : T3dPoint;
 begin
   Finalize(result);
-  // в южном и западном полушариях СК63 не действует !
+  // CK63 does not work in the southern and western hemispheres!
   if (gPoint.Y<0) or (gPoint.X<0) then exit;
   for i:='A' to 'Z' do
   begin
@@ -445,29 +445,29 @@ begin
     r1.X:=K.B0;  r1.Y:=K.L0;
     r2.X:=K.B0+K.rows/3;
     r2.Y:=K.L0+K.cols/2;
-    // проверяем влезает ли точка в зону (грубо)
+    // check if the point fits into the zone (roughly)
     if (P.X<r1.X) or (P.Y<r1.Y) or (P.X>r2.X) or (P.Y>r2.Y) then continue;
-    // проверяем влезает ли точка в зону (точно)
-    // относительная широта/долгота  в квадратах 100000
+    // check if the point fits into the zone (exactly)
+    // relative latitude / longitude in squares 100000
     nx:=Trunc((P.X-K.B0)*3);  ny:=Trunc((P.Y-K.L0)*2);
-    // дополнительная проверка попадания в квадрат
-    // чтобы не вылетел Ексепшион если квадрат не задан
+    // additional square hit check
+    // so that the Execution does not fly out if the square is not set
     if (nx>=LenGth(FMask[i])) or (nx<0) then  continue;
     if (ny>=LenGth(FMask[i][nx])) or (ny<0) then continue;
-    // точная проверка по маске номенклатур
+    // precise check by item mask
     if FMask[i][nx,ny] = 0 then  continue;
-    // если мы тут значит точка принадлежит текущей зоне
+    // if we are here then the point belongs to the current zone
     SetLenGth(result, LenGth(result)+1);
     with result[high(result)] do
     begin
      geoPoint  := gPoint;
      Region := i;
      Row    := nx;  Col := ny;
-     P.Y    := gPoint.Y*180/pi;      // смещение в градусах от начала
+     P.Y    := gPoint.Y*180/pi;      // offset in degrees from start
      zWidth := 3+3*byte(gPoint.Y>pi/3);
-     // вычисление 1-го осевого в спареной зона 6х3
-     // осевой мередиан 6*градусной зоны может быть дальше чем 1.5 градуса
-     // на восток, в таком случает рисуем дополнительный мередиан для 3-й зоны
+     // calculation of the 1st axial in the paired zone 6x3
+     // the axial meridian of a 6*degree zone can be further than 1.5 degrees
+     // to the east, in this case, draw an additional meridian for the 3rd zone
      if (Round(zWidth)=3) and (Round(100*(K.CM-K.L0))>150) then K.CM:=K.CM-3;
      for nx := 0 to 20 do
      begin
@@ -496,12 +496,12 @@ var i,j  : integer;
              (B<=Q.b1) and  (L<Q.l1);
     end;
 begin
-  mode:=0;  // проверка попадания номенклатур в указанный район
+  mode:=0;  // checking the hit of items in the specified area
   Finalize(result);
   Rct.b0:=Abs(180*(gPntNE.X-gPntSW.X)/pi);
   Rct.l0:=Abs(180*(gPntNE.Y-gPntSW.Y)/pi);
-  // если квадрат менее номенклатурного листа
-  // (проверяем попадание района в номенклатуры)
+  // if the square is less than the nomenclature sheet
+  // (we check if the area is included in the nomenclature)
   if (Rct.b0<1/3) and  (Rct.l0<0.5) then mode:=1;
 
   Rct.b0:=gPntSW.X;  Rct.l0:=gPntSW.Y;
@@ -669,10 +669,10 @@ begin
             L0:= NOM.Quad.L0+ k*dl;
             L1:= NOM.Quad.L0+ (k+1)*dl;
            end;
-           // если район попадает в квадрат ....
+           // if the area falls into a square ...
            if (_PIR(R0.X,R0.Y,_NM.Quad) or _PIR(R0.X,R1.Y,_NM.Quad) or
              _PIR(R1.X,R1.Y,_NM.Quad) or _PIR(R1.X,R0.Y,_NM.Quad)) or
-           // ... или если квадрат попадает в район
+           // ... or if the square falls into the area
              (_PIR(_NM.Quad.B0,_NM.Quad.L0,_rec) or _PIR(_NM.Quad.B0,_NM.Quad.L1,_rec) or
               _PIR(_NM.Quad.B1,_NM.Quad.L0,_rec) or _PIR(_NM.Quad.B1,_NM.Quad.L1,_rec)) then
            begin
@@ -758,10 +758,10 @@ begin
   result.nZone      := Zone;
   result.zWidth     := 3+3*Key.Z6;
   result.CM         := Key.CM+(Zone-1)*result.zWidth;
-  result.pPoint.X   := Key.dX;            // смещение по Х
-  result.pPoint.Y   := Key.dY;            // смещение по Y
-  result.geoPoint.X := Key.B0;            // мин широта
-  result.geoPoint.Y := Key.B0+Key.rows/3; // макс широта
+  result.pPoint.X   := Key.dX;            // X offset
+  result.pPoint.Y   := Key.dY;            // Y offset
+  result.geoPoint.X := Key.B0;            // min latitude
+  result.geoPoint.Y := Key.B0+Key.rows/3; // max latitude
 end;
 
 
@@ -801,7 +801,7 @@ begin
    Quad.B0  := Key.B0+ir/3;   Quad.B1 := Key.B0+(ir+1)/3;
    Quad.L0  := Key.L0+ic/2;   Quad.L1 := Key.L0+(ic+1)/2;
    if sn<>'' then
-   // квадрат менее 100000
+   // square less than 100000
    begin
    end;
 

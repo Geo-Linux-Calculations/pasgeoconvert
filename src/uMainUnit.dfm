@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 107
   Width = 515
   Height = 599
-  Caption = #1043#1077#1086#1076#1077#1079#1080#1095#1077#1089#1082#1080#1081' '#1082#1086#1085#1074#1077#1088#1090#1086#1088
+  Caption = 'Geodetic converter'
   Color = clBtnFace
   Constraints.MaxHeight = 600
   Constraints.MaxWidth = 515
@@ -40,7 +40,7 @@ object Form1: TForm1
       Top = 6
       Width = 129
       Height = 25
-      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090
+      Caption = 'Save result'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -55,7 +55,7 @@ object Form1: TForm1
       Top = 6
       Width = 105
       Height = 25
-      Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1090#1100
+      Caption = 'Convert'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -70,7 +70,7 @@ object Form1: TForm1
       Top = 6
       Width = 126
       Height = 25
-      Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1080#1089#1093'. '#1076#1072#1085#1085#1099#1077
+      Caption = 'Load ref. data'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -98,7 +98,7 @@ object Form1: TForm1
     TabOrder = 2
     TabWidth = 250
     object TabSheet5: TTabSheet
-      Caption = ' '#1043#1077#1086#1076#1077#1079#1080#1095#1077#1089#1082#1080#1093' '#1082#1086#1086#1088#1076#1080#1085#1072#1090
+      Caption = ' Geodetic coordinates'
       object Panel2: TPanel
         Left = 0
         Top = 137
@@ -141,7 +141,7 @@ object Form1: TForm1
           Width = 96
           Height = 21
           AutoSize = False
-          Caption = #1056#1077#1079'. '#1101#1083#1083#1080#1087#1089#1086#1080#1076
+          Caption = 'Res. ellipsoid'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -156,7 +156,7 @@ object Form1: TForm1
           Width = 95
           Height = 21
           AutoSize = False
-          Caption = #1048#1089#1093'. '#1101#1083#1083#1080#1087#1089#1086#1080#1076
+          Caption = 'Ref. ellipsoid'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -171,7 +171,7 @@ object Form1: TForm1
           Width = 255
           Height = 21
           AutoSize = False
-          Caption = ' '#1050#1086#1086#1088#1076#1080#1085#1072#1090#1099' : (N481200.00-E321500.00)*'
+          Caption = ' Coordinates : (N481200.00-E321500.00)*'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
           Font.Height = -11
@@ -186,7 +186,7 @@ object Form1: TForm1
           Width = 238
           Height = 22
           AutoSize = False
-          Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103
+          Caption = 'Conversion result'
           Layout = tlCenter
         end
         object _Method: TPageControl
@@ -205,7 +205,7 @@ object Form1: TForm1
           TabOrder = 0
           TabWidth = 160
           object TabSheet3: TTabSheet
-            Caption = #1043#1077#1086#1094#1077#1085#1090#1088#1080#1095#1077#1089#1082#1080#1081' '#1084#1077#1090#1086#1076
+            Caption = 'Geocentric method'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -215,7 +215,7 @@ object Form1: TForm1
             ParentFont = False
           end
           object TabSheet1: TTabSheet
-            Caption = #1052#1077#1090#1086#1076' '#1052#1086#1083#1086#1076#1077#1085#1089#1082#1086#1075#1086
+            Caption = 'Molodensky method'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -228,7 +228,7 @@ object Form1: TForm1
               Width = 84
               Height = 18
               AutoSize = False
-              Caption = #1057#1076#1074#1080#1075' '#1050#1057'    dX  ='
+              Caption = 'CS shift    dX  ='
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -243,7 +243,7 @@ object Form1: TForm1
               Width = 84
               Height = 18
               AutoSize = False
-              Caption = #1057#1076#1074#1080#1075' '#1050#1057'    dY  ='
+              Caption = 'CS shift    dY  ='
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -258,7 +258,7 @@ object Form1: TForm1
               Width = 91
               Height = 18
               AutoSize = False
-              Caption = #1057#1076#1074#1080#1075' '#1050#1057'    dZ  ='
+              Caption = 'CS shift    dZ  ='
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -311,7 +311,7 @@ object Form1: TForm1
             end
           end
           object TabSheet2: TTabSheet
-            Caption = #1052#1077#1090#1086#1076' '#1061#1077#1083#1100#1084#1077#1088#1090#1072' 7 '#1087#1072#1088#1072#1084'.'
+            Caption = 'Helmert's method 7 param.'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -557,7 +557,7 @@ object Form1: TForm1
       end
     end
     object TabSheet6: TTabSheet
-      Caption = #1055#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1077' '#1087#1088#1086#1077#1082#1094#1080#1081
+      Caption = 'Converting projections'
       ImageIndex = 1
       object _txt: TLabel
         Left = 0
@@ -566,7 +566,7 @@ object Form1: TForm1
         Height = 21
         Align = alTop
         AutoSize = False
-        Caption = ' '#1050#1086#1086#1088#1076#1080#1085#1072#1090#1099' : (N481200.00-E321500.00)*'
+        Caption = ' Coordinates : (N481200.00-E321500.00)*'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlue
         Font.Height = -11
@@ -611,12 +611,12 @@ object Form1: TForm1
         Width = 499
         Height = 38
         Align = alTop
-        Caption = #1053#1072#1087#1088#1072#1074#1083#1077#1085#1080#1077' '#1087#1088#1077#1086#1073#1088#1072#1079#1086#1074#1072#1085#1080#1103' '
+        Caption = 'Conversion direction '
         Columns = 2
         ItemIndex = 0
         Items.Strings = (
-          #1050#1086#1086#1088#1076#1080#1085#1072#1090#1072' => '#1087#1083#1072#1085' (BL=>XY)'
-          #1055#1083#1072#1085' => '#1082#1086#1086#1088#1076#1080#1085#1072#1090#1072'  (XY=>BL)')
+          'Coordinate => plan  (BL=>XY)'
+          'Plan => coordinate  (XY=>BL)')
         TabOrder = 1
         OnClick = _vectClick
       end
@@ -634,7 +634,7 @@ object Form1: TForm1
           Width = 25
           Height = 21
           AutoSize = False
-          Caption = 'B'#1090#1089'='
+          Caption = 'Bts='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -650,7 +650,7 @@ object Form1: TForm1
           Width = 30
           Height = 21
           AutoSize = False
-          Caption = 'B'#1102'='
+          Caption = 'Bu='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -682,7 +682,7 @@ object Form1: TForm1
           Width = 28
           Height = 21
           AutoSize = False
-          Caption = 'L'#1079'='
+          Caption = 'Lz='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -698,7 +698,7 @@ object Form1: TForm1
           Width = 28
           Height = 21
           AutoSize = False
-          Caption = 'L'#1074'='
+          Caption = 'Lv='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -714,7 +714,7 @@ object Form1: TForm1
           Width = 36
           Height = 21
           AutoSize = False
-          Caption = #1042#1086'='
+          Caption = Bo='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -730,7 +730,7 @@ object Form1: TForm1
           Width = 36
           Height = 21
           AutoSize = False
-          Caption = 'L'#1086'='
+          Caption = 'Lo='
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -746,7 +746,7 @@ object Form1: TForm1
           Width = 78
           Height = 21
           AutoSize = False
-          Caption = #1055#1088#1086#1077#1082#1094#1080#1103
+          Caption = 'Projection'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -761,7 +761,7 @@ object Form1: TForm1
           Width = 69
           Height = 21
           AutoSize = False
-          Caption = #1069#1083#1083#1080#1087#1089#1086#1080#1076
+          Caption = 'Ellipsoid'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -981,7 +981,7 @@ object Form1: TForm1
             Width = 40
             Height = 21
             AutoSize = False
-            Caption = #1073' ='
+            Caption = 'b ='
             Font.Charset = GREEK_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -997,7 +997,7 @@ object Form1: TForm1
             Width = 40
             Height = 21
             AutoSize = False
-            Caption = #1075' ='
+            Caption = 'g ='
             Font.Charset = GREEK_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -1013,7 +1013,7 @@ object Form1: TForm1
             Width = 41
             Height = 21
             AutoSize = False
-            Caption = #1102' ='
+            Caption = 'u ='
             Font.Charset = GREEK_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -1029,7 +1029,7 @@ object Form1: TForm1
             Width = 41
             Height = 21
             AutoSize = False
-            Caption = #1047#1086#1085#1072' ='
+            Caption = 'Zone ='
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -1273,7 +1273,7 @@ object Form1: TForm1
       end
     end
     object TabSheet4: TTabSheet
-      Caption = #1056#1072#1089#1089#1090#1086#1103#1085#1080#1077' '#1080' '#1072#1079#1080#1084#1091#1090
+      Caption = 'Distance and azimuth'
       ImageIndex = 2
       TabVisible = False
       object PageControl1: TPageControl
@@ -1286,7 +1286,7 @@ object Form1: TForm1
         Style = tsFlatButtons
         TabOrder = 0
         object TabSheet7: TTabSheet
-          Caption = #1053#1072#1081#1090#1080' '#1090#1086#1095#1082#1091' '#1087#1086' '#1072#1079#1080#1084#1091#1090#1091' '#1080' '#1076#1072#1083#1100#1085#1086#1089#1090#1080' '
+          Caption = 'Find a point in azimuth and range '
           object Label16: TLabel
             Left = 0
             Top = 51
@@ -1294,7 +1294,7 @@ object Form1: TForm1
             Height = 21
             Align = alTop
             AutoSize = False
-            Caption = ' '#1040':45.00 '#1080#1083#1080' A:0453010  D:15120'
+            Caption = ' A:45.00 or A:0453010  D:15120'
             Layout = tlCenter
           end
           object Panel6: TPanel
@@ -1337,7 +1337,7 @@ object Form1: TForm1
               Width = 97
               Height = 21
               AutoSize = False
-              Caption = #1069#1051#1051#1048#1055#1057#1054#1048#1044
+              Caption = 'ELLIPSOID'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
@@ -1352,7 +1352,7 @@ object Form1: TForm1
               Width = 95
               Height = 21
               AutoSize = False
-              Caption = #1041#1072#1079#1086#1074#1072#1103' '#1090#1086#1095#1082#1072
+              Caption = 'Base point'
               Layout = tlCenter
             end
             object l1: TMaskEdit
@@ -1404,19 +1404,19 @@ object Form1: TForm1
           end
         end
         object TabSheet8: TTabSheet
-          Caption = #1053#1072#1081#1090#1080' '#1072#1079#1080#1084#1091#1090' '#1080' '#1076#1072#1083#1100#1085#1086#1089#1090#1100
+          Caption = 'Find azimuth and range'
           ImageIndex = 1
         end
       end
     end
   end
   object OD1: TOpenDialog
-    Filter = #1058#1077#1082#1089#1090#1086#1074#1099#1077' '#1092#1072#1081#1083#1099' '#1089' '#1082#1086#1086#1088#1076#1080#1085#1072#1090#1072#1084#1080'|*.txt|'#1042#1089#1077' '#1092#1072#1081#1083#1099'|*.*'
+    Filter = 'Text files with coordinates|*.txt|All files|*.*'
     Left = 440
     Top = 24
   end
   object SD1: TSaveDialog
-    Filter = #1058#1077#1082#1089#1090#1086#1074#1099#1077' '#1092#1072#1081#1083#1099'|*.txt|'#1042#1089#1077' '#1092#1072#1081#1083#1099'|*.*'
+    Filter = 'Text files|*.txt|All files|*.*'
     Left = 472
     Top = 24
   end

@@ -185,7 +185,7 @@ begin
         S := inttostr(i+1)+':';
         for j:=0 to LenGth(R)-1 do
          S:=S+format(' %s%d X:%.2f Y:%.2f',[R[j].Region, R[j].nZone, R[j].pPoint.X,R[j].pPoint.Y]);
-        if  LenGth(R)=0 then  S:=S+' не конвертируется !';
+        if  LenGth(R)=0 then  S:=S+' not convertible !';
         MR2.Lines.Add(S);
         Finalize(R);
        end;
@@ -275,7 +275,7 @@ begin
  begin
   if IsInfinite(X) or IsInfinite(Y) then
   begin
-   MR.Lines.Add('= НЕ КОНВЕРТИРУЕТСЯ =');
+   MR.Lines.Add('= NOT CONVERTIBLE =');
    Continue;
   end;
   case byte((_vect.ItemIndex=0)and(_page.ActivePageIndex=1))  of
@@ -334,11 +334,11 @@ begin
   0:  if (_from.ItemIndex=29) and (_to.ItemIndex=40) then FillValues(0) else
       if (_from.ItemIndex=40) and (_to.ItemIndex=29) then FillValues(1);
   1:   begin
-         _lb0.Caption:='Во=';
+         _lb0.Caption:='Bo=';
          _reg.Visible:=false;
          if Proj.ItemIndex=125 then
          begin
-          _lb0.Caption:='Район';
+          _lb0.Caption:='District';
           _reg.Visible:=true;
           _ellps.ItemIndex:=29;
 
@@ -419,9 +419,9 @@ end;
 procedure TForm1._vectClick(Sender: TObject);
 begin
  case _vect.ItemIndex of
-  0: _txt.Caption:=' Координаты : (N481200.00-E321500.00)*';
-  1: _txt.Caption:=' Координаты : (X:521000 Y:-47001)* в метрах';
-  2: _txt.Caption:=' Координаты : (X:521000 Y:-47001)* в метрах';
+  0: _txt.Caption:=' Coordinates : (N481200.00-E321500.00)*';
+  1: _txt.Caption:=' Coordinates : (X:521000 Y:-47001)* in meters';
+  2: _txt.Caption:=' Coordinates : (X:521000 Y:-47001)* in meters';
  end;
  _reg.Enabled:= _vect.ItemIndex=1;
 end;

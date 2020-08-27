@@ -3,15 +3,15 @@ unit MathExt;
 interface
 
 const
- NO_CROSS     = $00; // нет пересечения
- CR_LINE_SS   = $01; // сегмент-сегмент
- CR_LINE_SV   = $02; // сегмент-вершина
- CR_LINE_VV   = $03; // одна вершина совпадает    1----1(2)----2
- CR_LINE_SV2  = $04; // обе вершине на сегментах  2----1---2----1
- CR_LINE_VV2  = $05; // две линии имеют доинаковые координаты  1(2)----2(1)
+ NO_CROSS     = $00; // no intersection
+ CR_LINE_SS   = $01; // segment-segment
+ CR_LINE_SV   = $02; // segment-top
+ CR_LINE_VV   = $03; // one vertex match    1----1(2)----2
+ CR_LINE_SV2  = $04; // both vertices on segments  2----1---2----1
+ CR_LINE_VV2  = $05; // two lines have the same coordinates  1(2)----2(1)
 
- CR_FULL      = $20; // сложное пересечение
- CR_INNER     = $21; // полное вхождение
+ CR_FULL      = $20; // difficult intersection
+ CR_INNER     = $21; // full occurrence
 
 
 type
@@ -47,11 +47,11 @@ type
   TIntegerArray = array of integer;
   TSquareMatrix = array of TFloatArray;
   TUniqueKey    = TIntegerArray;
- // ПРИМЕЧАНИЕ: Радиусы окружностей задаються через координату Z
- //             Кривизна сегментов полилинии задается через дополнительный массив *Bulge
- //             где X,Y - координаты центра дуги, Z- ее радиус,знак "+" по час.стр. "-" против
+ // NOTE: The radii of the circles are specified using the Z coordinate
+ //       The curvature of polyline segments is set through an additional array *Bulge
+ //       where X, Y are the coordinates of the center of the arc, Z is its radius, the sign "+" by hour p. "-" against
  // ************************************************************
- //                      ОБЩИЕ ФУНКЦИИ
+ //                      GENERAL FUNCTIONS
  // ************************************************************
 
  function Max(const A,B: double): double;
@@ -65,162 +65,162 @@ type
 
  procedure Clear3dMatrix(var Matrix : T3dMatrix);
 
- // вычислить дистанцию
+ // calculate distance
  function   Distance(X1,Y1,X2,Y2 : double) : double;  overload;
  function   Distance(Point1, Point2 : T3dPoint) : double; overload;
 
  function   Distance3d(Point1, Point2 : T3dPoint) : double;
- // взять математический угол
+ // take a math angle
  function   GetAngle(p1, P2 : T3dPoint) : extended; overload;
  function   GetAngle(X1,Y1,X2,Y2 : double) : extended; overload;
- // найтьи координату точки от базовой с заданым углом и вектором начала отсчета
+ // find the coordinate of a point from the base one with a given angle and a vector of the origin
  function   SetPoint(Base : T3dPoint; Dist, Angle : extended;
   const vector : TAngleVector = avRight; const Hours : boolean= false) : t3dPoint;
- // добавить к концу массива Arr массив Values
+ // add the Values array to the end of the Arr array
  procedure  IncArray(var Arr: T3dArray; Values: array of T3dPoint);overload;
  procedure  IncArray(var B: T3dArray; V: array of T3dPoint;baseTop,ValTop:boolean);overload;
 // procedure IncArray(var Arr: T3dArray; const Values: T3dArray); overload;
  procedure  IncArrayNoDuplicate(var Arr: T3dArray; Values: array of T3dPoint);
- // сменить напраление цифрования
+ // change the direction of digitalization
  procedure  InverseArray(var Arr:T3dArray);
  procedure  InverseBorder(var Brd:TBorder);
- // замкнуть массив
+ // close the array
  procedure  ClosedArray(var Arr:T3dArray; const delta : double = 0.0);
-  // Переместить массив
+ // move array
  procedure  MoveArray(var Arr:T3dArray;Base,Moved: T3dPoint); overload;
  procedure  MoveArray(var Arr:TBorder;Base,Moved: T3dPoint); overload;
- // поменять точки местами
+ // swap dots
  procedure SwapPoint(var Arr:T3dArray; bIndex, sIndex:integer);
-  // касательная от точки к кругу
+ // tangent from point to circle
  function  PointKasat(P0, Center: T3dPoint): T3dArray;
- // касательная между кругами
+ // tangent between circles
  function  CircleKasat(isUpper : boolean; C1, C2: T3dPoint;var Res : T3dArray):boolean;
  // ************************************************************
- //                      ПЕРЕСЕЧЕНИЕ ЕЛЕМЕНТАРНЫЕ
+ //                      CROSSING ELEMENTARY
  // ************************************************************
- // отрезок-отрезок
+ // segment - segment
  function CrossLineToLine(p1,p2,l1,l2 : T3dPoint; var Res : T3dArray; const Decimal : byte = 4): byte;overload;
  function CrossLineToLine(p1,p2,l1,l2 : T3dPoint; const Decimal : byte = 4): byte;overload;
- // отрезок-окружность
+ // segment - line
  function CrossLineToCircle(p1,p2,Cnt : T3dPoint; var Cross : T3dArray): boolean;
- // отрезок-дуга
+ // segment - arc
  function CrossLineToArc(a0,a1,C, l0,l1 : T3dPoint; var Cross : T3dArray): boolean;
- // окружность - окружность
+ // circle - circle
  function CrossCircleToCircle(C1, C2: T3dPoint; var Cross : T3dArray):boolean;
- // окружность - дуга
+ // circle - arc
  function CrossArcToCircle(a0,a1,b0, Center : T3dPoint; var Cross : T3dArray): boolean;
- // дуга - дуга
+ // arc - arc
  function CrossArcToArc(a0,a1,c0, l0,l1,c1 : T3dPoint; var Cross : T3dArray): boolean;
 
  // ************************************************************
- //                ВХОЖДЕНИЕ ЕЛЕМЕНТАРНЫЕ
+ //                INCLUSION ELEMENTARY
  // ************************************************************
- // точка в окружность
+ // point to circle
  function PointInCircle(Center : T3dPoint; Pnt: T3dPoint) :boolean;
- // точка в сегмент
+ // point to segment
  function PointInSegment(P0,P1,B0 : T3dPoint; Pnt: T3dPoint) :boolean;
- // точка в сектор
+ // point to sector
  function PointInSector(P0,P1,B0 : T3dPoint; Pnt: T3dPoint) :boolean;
 
 
  // ************************************************************
- //                    ПЕРЕСЕЧЕНИЕ СЛОЖНЫЕ
+ //                    CROSSING DIFFICULT
  // ************************************************************
- // полилиния - полилиния (с учетом сегментов-"дуг")
+ // polyline - polyline (including "arc" segments)
  function CrossPolyToPoly(Base,bBulge,Poly,pBulge:T3dArray; var Res:T3dArray):boolean; overload;
  function CrossPolyToPoly(Base,bBulge,Poly,pBulge:T3dArray):boolean;overload;
- // полилиния - полилиния (без учета сегментов-"дуг")
+ // polyline - polyline (excluding "arc" segments)
  function CrossPolyToPoly(Base,Poly:T3dArray):boolean;overload;
- // полилиния - полилиния (без учета сегментов-"дуг") с учетом Z
+ // polyline - polyline (excluding "arc" segments) taking into account Z
  function CrossPolyToPolyZ(BaseZ,Poly:T3dArray; var Res:T3dArray):boolean;
- // полилиния - окружность (с учетом сегментов-"дуг")
+ // polyline - circle (taking into account the "arc" segments)
  function CrossPolyToCircle(Base,bBulge:T3dArray;Center:T3dPoint; var Res:T3dArray):boolean; overload;
  function CrossPolyToCircle(Base,bBulge:T3dArray;Center:T3dPoint):boolean;overload;
- // полилиния - окружность (без учета сегментов-"дуг")
+ // polyline - circle (excluding "arc" segments)
  function CrossPolyToCircle(Base:T3dArray;Center:T3dPoint):boolean;overload;
 
  // ************************************************************
- //                    ВХОЖДЕНИЕ СЛОЖНЫЕ
+ //                    INCLUSION DIFFICULT
  // ************************************************************
- // точка - в полилинию (без учета сегментов-"дуг")
- // точка - в полилинию (с учетом сегментов-"дуг")
+ // point - to polyline (excluding segments - "arcs")
+ // point - to polyline (taking into account the "arc" segments)
  function PointInPolygon(Poly,Bulge : T3dArray; Pnt : T3dPoint):boolean; overload;
  function PointInPolygon(Poly : T3dArray; Pnt : T3dPoint):boolean; overload;
- // полилиния с полилинии (с учетом режима пересечения)
+ // polyline with polyline (taking into account the intersection mode)
  function PolyInPolyEx(Base,bBulge,Second,sBulge:T3dArray):byte;
- // полилиния с полилинии проверка первого вхождения/пересечения
+ // polyline with polyline first occurrence / intersection check
  function PolyInPoly(Base,bBulge,Second,sBulge:T3dArray):boolean; overload;
  function PolyInPoly(Base,Second : T3dArray):boolean; overload;
- // полилиния с кругом (с учетом режима пересечения)
+ // polyline with a circle (taking into account the intersection mode)
  function PolyInCircleEx(Center:T3dPoint;Poly,Bulge: T3dArray):byte;
- // полилиния с кругом проверка первого вхождения/пересечения
+ // polyline with a circle check the first occurrence / intersection
  function PolyInCircle(Poly,Bulge: T3dArray;Center:T3dPoint):boolean; overload;
  function PolyInCircle(Poly: T3dArray;Center:T3dPoint):boolean;overload;
- // кругом с полилинией  проверка первого вхождения/пересечения
+ // circle with polyline check the first occurrence / intersection
  function CircleInPoly(Center:T3dPoint;Poly: T3dArray):boolean;
  // ************************************************************
- //                    ПЕРЕСЕЧЕНИЕ ТРЕХМЕРНЫЕ
+ //                    CROSSING THREE-DIMENSIONAL
  // ************************************************************
- // нормальный произвольный объект (зона) с отрезком (значения в Z- высота)
+ // normal arbitrary object (zone) with line (values in Z-height)
  function Cross3dPolyToLine(Poly, Bulge : T3dArray; Hmax, Hmin : double; p0,p1 : T3dpoint; var Res : T3dArray):byte;
- // цилиндр с отрезком (значения в Z- высота)
+ // segment cylinder (values in Z- height)
  function CrossCylinderToLine(Center : T3dPoint; Hmax,Hmin : double; p0,p1 : T3dpoint; var Res : T3dArray):byte;
 
  // ************************************************************
- //                    ВХОЖДЕНИЕ ТРЕХМЕРНЫЕ
+ //                    INPUT THREE-DIMENSIONAL
  // ************************************************************
- // точка - в паралелепипед
+ // point - in a parallelepiped
  function PointInPolygon3d(Poly,Bulge:T3dArray;Hmin,HMax:double; Pnt : T3dPoint):boolean; overload;
- // точка - в паралелепипед (с гранями-вырезками цилиндра)
+ // point - in a parallelepiped (with cylinder notches)
  function PointInPolygon3d(Poly : T3dArray;Hmin,HMax:double; Pnt : T3dPoint):boolean; overload;
-  // точка в цилиндр
+ // point to cylinder
  function PointInCylinder(Center:T3dPoint;Hmin,HMax:double;Pnt: T3dPoint) :boolean;
  // ************************************************************
- //                   ФУНКЦИИ МАТ.АНАЛИЗА (МАРТИЦЫ)
+ //                   FUNCTIONS OF MATRIX ANALYSIS (MATRIX)
  // ************************************************************
 
  procedure DeleteMatrix(var Matrix : TSquareMatrix);
- // умножение матриц
+ // matrix multiplication
  function MullMatrix(A,B:TSquareMatrix):TSquareMatrix;
- // вычисление определителя(детерминанты) матрицы
+ // calculating the determinant of a matrix
  function CalculateDeterminant(A : TSquareMatrix) : double;
- // вычисление коефициентов уравнения вида f(x) по значению и результату
+ // calculating the coefficients of an equation of the form f (x) by value and result
  function CalculateKoeficient1d(X,F : TFloatArray) : TFloatArray;
- // вычисление коефициентов уравнения вида f(x,y)
+ // calculating the coefficients of an equation of the form f (x, y)
  function CalculateKoeficient2d(XY : TSquareMatrix; FX,FY : TFloatArray) :TSquareMatrix;
 
  // ************************************************************
- //                ФУНКЦИИ ЛОГИЧЕСКОГО АНАЛИЗА
+ //                LOGICAL ANALYSIS FUNCTIONS
  // ************************************************************
- // минимальная/максимальная дистанция в наборе точек
- // результат индекс точки в массиве  Value
+ // minimum / maximum distance in a set of points
+ // the result is the index of the point in the Value array
  function FindDistanceFromPoint(Point:T3dPoint;Value : T3dArray;MaxDist:boolean): integer;
 
- // результат индексы точек в массиве  Value
+ // the result is the indices of the points in the Value array
  function FindDistance(Value : T3dArray;MaxDist:boolean): TLineIndex;
 
- // поиск подобия ДУГ и ОКРУЖНОСТЕЙ в массиве координат
- // результат - координаты объекта (непосредственного применения)
- // pDist - дистанция в процентах
- // dA    - угол в градусах
+ // search for the similarity of ARCS and CIRCUITS in an array of coordinates
+ // result - object coordinates (direct application)
+ // pDist - distance in percentage
+ // dA    - angle in degrees
  function FindCurve(V : T3dArray; pDist: integer;dA:double): TBorder;
 
  // ************************************************************
- //                   ДРУГИЕ ФУНКЦИИ
+ //                   OTHER FUNCTIONS
  // ************************************************************
- // увеличить (уменьшить) полилинию
+ // increase (decrease) polyline
  function OffsetPolyLine(Poly : TBorder; Offset : double): TBorder; overload;
  function OffsetPolyline(Poly : T3dArray; Offset : double): T3dArray; overload;
- // ширины в Vertex.Z
+ // width in Vertex.Z
  function OffsetCline(Poly : T3dArray): T3dArray;
- // удалить самопересекающиеся участки
+ // remove self-intersecting areas
  function ClearCrossLines(InPoly : T3dArray): T3dArray;
- // удалить точки с одинаковыми координатами
+ // delete points with the same coordinates
  function DeleteDuplicatedPoint(Border : TBorder): TBorder;overload;
  function DeleteDuplicatedPoint(P,B : T3dArray): TBorder;overload;
- // объеденить полилинии
+ // merge polylines
  function UnionPoly(Poly1,blg1, Poly2,blg2: T3dArray; var Res,bRes :T3dArray):boolean;
- {// вычесть полилинии
+ {// subtract polylines
  function SunstractPoly(Base,bBulge,Second,sBulge: T3dArray; var Res,bRes: T3dArray):boolean;
 }
  function ScanPolygon(Poly,Bulge: T3dArray; dH:double): T3dMatrix; //overload;
@@ -417,7 +417,7 @@ end;
  begin
    result := Angle;
    if Angle =0 then exit;
-   //  приводим к пределу 0..2pi
+   //  bring to the limit 0..2pi
    while result<0 do
     result:=result+2*pi;
 
@@ -427,18 +427,18 @@ end;
     result := -(2*pi-result);
  end;
 
- // разница между путевыми углами
- // BaseIPU - базовый путевой угол
- // ToPointIPU - последующий путевой угол
+ // difference between track angles
+ // BaseIPU - base track angle
+ // ToPointIPU - subsequent track angle
  function DeltaIPU(BaseIPU, ToPointIPU : double):double;
  begin
    result:=NoramlizeAngle(ToPointIPU)-NoramlizeAngle(BaseIPU);
-   // разница никогда не должна превышать 180 градусов !
+   // the difference should never exceed 180 degrees!
    result:=NoramlizeAngle(result, false);
  end;
 
 
- // сложить ИПУ (если нужно отнять установить знак) ПРИМ: Delta:=AddIPU(3*pi/2, -5*pi/6)
+ // fold the IPU (if you need to subtract the sign) NOTE: Delta:=AddIPU(3*pi/2, -5*pi/6)
  function AddIPU(IPU, Angle : double):double;
  begin
   result:=IPU+Angle;
@@ -527,7 +527,7 @@ begin
   if (LenGth(A)<2) or (LenGth(B)<2) then exit;
 
   m:=LenGth(A); n:=LenGth(A[0]); r:=LenGth(B[0]);
-  // внутренние размеры не совпадают
+  // internal dimensions do not match
   if (LenGth(B)<>n) then exit;
 
   SetLength(result,m);
@@ -552,19 +552,19 @@ begin
   Finalize(Matrix);
 end;
 
- // вычисление определителя(детерминанты) матрицы
+ // calculating the determinant of a matrix
 function CalculateDeterminant(A : TSquareMatrix) : double;
 var B       : TSquareMatrix;
     D       : double;
     L,i,j,k : integer;
 
 begin
- // ПРОВЕРКА
+ // CHECK
  L:=LenGth(A);
  if (l<3) and (LenGth(A[0])=0) then exit;
  if  l<>LenGth(A[0]) then exit;
  result:=0;
- //ЗАПОЛНЕНИЕ
+ // FILLING
  for i:=0 to L-1 do
  begin
   SetLength(B, L-1);
@@ -591,7 +591,7 @@ begin
  Finalize(B);
 end;
 
-// вычисление коефициентов уравнения f(x)
+// calculation of equation coefficients f(x)
 function CalculateKoeficient1d(X,F:TFloatArray) : TFloatArray;
 var RM,Xn : TSquareMatrix;
     j,i   : integer;
@@ -635,7 +635,7 @@ begin
  DeleteMatrix(Xn);
 end;
 
- // вычисление коефициентов уравнения f(x,y)
+ // calculation of equation coefficients f(x,y)
  function CalculateKoeficient2d(XY : TSquareMatrix; FX,FY : TFloatArray) : TSquareMatrix;
  var I,J,K : integer;
      R     : TFloatArray;
@@ -708,7 +708,7 @@ end;
   end;
  end;
 
-// инверсия массива
+// inversion of an array
  procedure  InverseArray(var Arr:T3dArray);
  var i,Len : integer;
      R     : T3dArray;
@@ -745,7 +745,7 @@ end;
  end;
 
 
- // замкнуть массив
+ // close the array
  procedure  ClosedArray(var Arr:T3dArray; const delta : double = 0.0);
  var D : double;
  begin
@@ -761,7 +761,7 @@ end;
  end;
 
 
- // ВХОЖДЕНИЕ
+ // ENTRANCE
  function PointInCircle(Center : T3dPoint; Pnt: T3dPoint):boolean;
  asm
       FLD qword ptr [Pnt]
@@ -793,7 +793,7 @@ var sect   : integer;
 begin
  result:=false;
  if (Abs(B0.Z)=0) or (Round(Distance(B0,Pnt))>Abs(B0.Z)) then exit;
- // точка есть одним из концов самой дуги
+ // point is one of the ends of the arc itself
  result:=(Round(Distance(Pnt,P0))=0) or (Round(Distance(Pnt,P1))=0);
  if result then exit;
  SetLenGth(Ac1,4); Ac1[0]:=p0;  Ac1[3]:=p1;
@@ -804,9 +804,9 @@ begin
  if Abs(Ac1[0].Z)>pi then Sect:=2 else Sect:=1;
  Sect:=Sect*(1-2*Byte(Ac1[0].Z<0))*(1-2*Byte(b0.Z<0));
  case sect of
-  // большая дуга
+  // large arc
   -1,2 : result:=not PointInPolygon(Ac1,B, Pnt);
-  // малая дуга
+  // minor arc
   1,-2 : result:=PointInPolygon(Ac1,B, Pnt);
  end;
 end;
@@ -832,15 +832,15 @@ end;
 
 
 {
- NO_CROSS     = $00; // нет пересечения
- CR_LINE_SS   = $01; // сегмент-сегмент
- CR_LINE_SV   = $02; // сегмент-вершина
- CR_LINE_VV   = $03; // одна вершина совпадает    1----1(2)----2
- CR_LINE_SV2  = $04; // обе вершине на сегментах  2----1---2----1
- CR_LINE_VV2  = $05; // две линии имеют доинаковые координаты  1(2)----2(1)
+ NO_CROSS     = $00; // no intersection
+ CR_LINE_SS   = $01; // segment-segment
+ CR_LINE_SV   = $02; // segment-vertex
+ CR_LINE_VV   = $03; // one vertex match    1----1(2)----2
+ CR_LINE_SV2  = $04; // both vertices on segments  2----1---2----1
+ CR_LINE_VV2  = $05; // two lines have the same coordinates  1(2)----2(1)
 }
- // ПЕРЕСЕЧЕНИЕ
- // отрезок с отрезком
+ // CROSSING
+ // segment with segment
 function CrossLineToLine(p1,p2, l1,l2 : T3dPoint; var Res : T3dArray; const Decimal : byte = 4): byte;
 var V1,V2 : T3dpoint;
     i     : integer;
@@ -850,12 +850,12 @@ var V1,V2 : T3dpoint;
 begin
  delta := power(10, -(Decimal+1));
  result:=0;  Finalize(res);
- // одна из линий нулевая
+ // one of the lines is zero
  if(Distance(p1,p2)=0) or (Distance(l1,l2)=0) then exit;
- // проверяем вершины с вершинами
+ // check vertices with vertices
  if (Distance(p1,l1)<delta) or (Distance(p1,l2)<delta) then IncArray(Res,[p1]);
  if (Distance(p2,l1)<delta) or (Distance(p2,l2)<delta) then IncArray(Res,[p2]);
- // если вых.массив заполнен хоть одним элементом то ВЫХОД
+ // if the output array is filled with at least one element then EXIT
  case LenGth(Res) of
   1: result:=CR_LINE_VV;
   2: result:=CR_LINE_VV2;
@@ -869,7 +869,7 @@ begin
 
  V1:=Set3dPoint(RoundTo(p2.x-p1.X,-Decimal),RoundTo(p2.Y-p1.y,-Decimal),0);
  V2:=Set3dPoint(RoundTo(l2.x-l1.X,-Decimal),RoundTo(l2.Y-l1.y,-Decimal),0);
- // первая вертикальная dp=0
+ // first vertical dp=0
  if (V1.X=0) and (V2.X<>0) then
  begin
   V2.Z:=V2.Y/V2.X; V2.X:=l1.y-l1.x*V2.Z;
@@ -880,7 +880,7 @@ begin
   byte(((V1.Y=minP.y) and (V1.Y=MaxP.y)) and ((V1.X=minL.x) and (V1.X=maxL.x)));
 
  end else
- // вторая вертикальная   dl=0
+ // second vertical dl=0
  if (V1.X<>0) and (V2.X=0) then
  begin
   V1.Z:=V1.Y/V1.X; V1.X:=p1.y-p1.x*V1.Z;
@@ -890,7 +890,7 @@ begin
   result:=CR_LINE_SS*byte(LenGth(Res)>0)+
   byte(((V2.Y=minL.y) and (V2.Y=maxL.y)) and((V2.X=minP.x) and (V2.X<=MaxP.x)));
  end else
- // обе вертикальные и совпадающие
+ // both vertical and coincident
  if ((V1.X=0) and (V2.X=0)) and (p1.X=l1.X) then
  begin
 
@@ -902,7 +902,7 @@ begin
   result:=CR_LINE_SV*byte(LenGth(Res)=1)+CR_LINE_SV2*byte(LenGth(Res)=2);
 
  end else
- // обе нормальные
+ // both normal
  begin
   V1.Z := MaxDouble;  V2.Z := MaxDouble;
   if v1.x<>0 then
@@ -917,7 +917,7 @@ begin
    V2.X:=l1.y-l1.x*V2.Z;
   end else
   V2.X := 0;
-  // паралельные и совпадающие
+  // parallel and coincident
   if (RoundTo(V1.Z-V2.Z,-Decimal)+RoundTo(V1.X-V2.X,-Decimal)=0) then
   begin
    if PointInRect(l1,l2,p1, Decimal) then IncArray(Res,[p1]);
@@ -926,7 +926,7 @@ begin
    if PointInRect(p1,p2,l2, Decimal) then IncArray(Res,[l2]);
    result:=CR_LINE_SV*byte(LenGth(Res)=1)+CR_LINE_SV2*byte(LenGth(Res)=2);
   end else
-  // совпадение по ребрам
+  // edge match
   begin
    IncArray(Res,[v2]);
    if V1.Z-V2.Z<>0 then
@@ -951,7 +951,7 @@ begin
 end;
 
 
-// отрезок с кругом
+// segment with a circle
 function CrossLineToCircle(p1,p2,Cnt : T3dPoint; var Cross : T3dArray): boolean;
 var A0,B0, A,B,C, D: double;
 begin
@@ -1000,7 +1000,7 @@ begin
 end;
 
 
-// отрезок с дугой (любой размер "более или менее 180 вычисляется")
+// line segment with arc (any size "more or less 180 is calculated")
 function CrossLineToArc(a0,a1,C,l0,l1 : T3dPoint; var Cross : T3dArray): boolean;
 var Ac1,B  : T3dArray;
     i,sect : integer;
@@ -1018,9 +1018,9 @@ begin
  Sect:=Sect*(1-2*Byte(Ac1[0].Z<0))*(1-2*Byte(C.Z<0));
  for i:=0 to LenGth(Cross)-1 do
  case sect of
-  // большая дуга
+  // large arc
   -1,2 : Cross[i].Z:=byte(not PointInPolygon(Ac1,B,Cross[i]));
-  // малая дуга
+  // minor arc
   1,-2 : Cross[i].Z:= byte(PointInPolygon(Ac1,B,Cross[i]));
  end;
  if (LenGth(Cross)=1) and (Cross[0].Z=0) then Finalize(Cross) else
@@ -1506,10 +1506,10 @@ begin
   FSB:=sBulge;
   ClosedArray(FSB);
  end;
- // проверяем попадаю ли все точки в базовый полигон
+ // check if all points fall into the base polygon
  for i:=0 to length(FS)-2 do Inc(cnt,byte(PointInPolygon(FB, FBB, FS[i])));
  CrossPolyToPoly(FB,FBB,FS,FSB,R);
- // cnt = length(FS)-1 - все точки внутри базового полигона
+ // cnt = length(FS)-1 - all points inside the base polygon
  if (cnt=length(FS)-1) and (LenGth(R)=0) then result:=CR_FULL else
  if (LenGth(R)<>0) then result:=$21;
  Finalize(R);Finalize(FS);Finalize(FSB);
@@ -1565,15 +1565,15 @@ begin
  cinpoly:=PointInPolygon(Poly,Center);
  cross:=CrossPolyToCircle(Poly,Center);
  result:=cinpoly and cross;
- // если центр внути но нет пересечения с полилиней
- // 1 - вариант : круг полностью внутри
- // 2 - вариант : круг вмещает полилинию
+ // if the center is inside but there is no intersection with the polyline
+ // 1 - option: the circle is completely inside
+ // 2 - option: the circle contains the polyline
  if (cinpoly and not cross) then
- // если точка на круга попадает внутрь полилинии то круг полностью внутри
+ // if a point on a circle falls inside the polyline, then the circle is completely inside
  result:=PointInPolygon(Poly, SetPoint(Center, Center.Z, 0, avRight, false));
 end;
 
-// ПОДЛЕНЖИТ РАЗРАБОТКЕ
+// TO BE DEVELOPED
 
 function UnionPoly(Poly1,blg1,Poly2,blg2: T3dArray; var Res,bRes :T3dArray):boolean;
 var i,j    : integer;
@@ -1725,7 +1725,7 @@ begin
  end;
  result.Vertex:=ClearCrossLines(result.Bulge);
  Finalize(result.Bulge);
- // коррекция самопересечений
+ // self-intersection correction
 end;
 
 
@@ -1751,7 +1751,7 @@ begin
  end;
  result:=ClearCrossLines(V);
  Finalize(V);
- // коррекция самопересечений
+ // self-intersection correction
 end;
 
 function OffsetCline(Poly : T3dArray): T3dArray;
@@ -1933,11 +1933,11 @@ end;      }
 
 //************************************************************//
 //                                                            //
-//                     3D - пересечения                       //
+//                     3D - intersections                     //
 //                                                            //
 //************************************************************//
-// Линия с паралелепипедным объектом
-// ОТЛАЖЕНО в 17.02.2007
+// Line with a parallelepiped object
+// POSTPONED in 17.02.2007
 function Cross3dPolyToLine(Poly, Bulge : T3dArray; Hmax,Hmin : double; p0,p1 : T3dpoint; var Res : T3dArray):byte;
 var Box, line : t3dArray;
     phi,Z     : double;
@@ -1948,32 +1948,32 @@ begin
  Line[0]:=SetPoint(p0, 1e8, phi+pi,avRight, false);
  Line[1]:=SetPoint(p1, 1e8, phi,avRight, false);
  CrossPolyToPoly(Poly,Bulge,line,Empty,line);
- // проверка горизонтального пересечения "безконечно" длинной линии
- // если пересечения нет - профиль линии не проходит через тело фигуры
+ // checking the horizontal intersection of an "infinitely" long line
+ // if there is no intersection, the line profile does not pass through the body of the figure
  if length(Line)<>2 then exit;
- // иначе создаем макет профиля, где координиата z (H) - становится координатой y
- // для того чтобы пропустить через функции 2D анализа в вертикальной плоскости
- // начальноая точка выбрана p0 (все строится относительно нее)
+ // otherwise, create a profile layout, where the z (H) coordinate becomes the y coordinate
+ // to run through 2D vertical analysis functions
+ // the starting point is chosen p0 (everything is built relative to it)
  SetLength(Box,5);
- // запоминаем дистанции от p0 2D дистанции до пересечений
- // строим разрез объекта
+ // memorize the distances from p0 2D distances to intersections
+ // building a section of the object
  Box[0]:=Set3dPoint((1-2*byte(Abs(GetAngle(p0, Line[0])-phi)>pi/2))*Distance(p0,Line[0]),hMin,0);
  Box[1]:=Set3dPoint(Box[0].x,hMax,0);
- // откладываем вторую вертикаль профиля объекта от первой на расстояние 2D между перечениями
+ // we postpone the second vertical of the object profile from the first one at a distance of 2D between the replays
  Box[2]:=Set3dPoint((1-2*byte(Abs(GetAngle(p0, Line[1])-phi)>pi/2))*Distance(p0,Line[1]),hMax,0);
  Box[3]:=Set3dPoint(Box[2].x,hMin,0); Box[4]:=Box[0];
- // точка p0 "0" высота в Y, точка p1 на дистанцию до нее
+ // point p0 "0" height in Y, point p1 at a distance to it
  Line[0]:=Set3dPoint(0,P0.z,0); Line[1]:=Set3dPoint(Distance(p0,p1),P1.z,0);
- //ищем пересечение в верикальной плоскости
+ // looking for an intersection in the vertical plane
  CrossPolyToPoly(Box,Empty,line,Empty,Res);
- // если есть пересечение то преобразовываем
+ // if there is an intersection then transform
  for index:=0 to Length(Res)-1 do
  begin
   Z:= Res[index].y;
   Res[index]:=SetPoint(P0,Res[index].X,phi, avRight, false);
   Res[index].z:=Z;
  end;
- // контроль профиля (закоментировано специально)
+ // profile control (commented out specially)
  //ldoc.ModelSpace.AddLightWeightPolyline(ToleArray(Line,true));
  //ldoc.ModelSpace.AddLightWeightPolyline(ToleArray(box,true));
   if Length(Res)=0 then
@@ -1986,12 +1986,12 @@ begin
   Finalize(Box); Finalize(Line);
 end;
 
-// цилиндр с линией
+// cylinder with line
 function CrossCylinderToLine(Center : T3dPoint; Hmax,Hmin : double; p0,p1 : T3dpoint; var Res : T3dArray):byte;
 var Poly, bulge : T3dArray;
 begin
- // производим преобразование окружности в две дуги
- // и запускаем обычное вхождение в полигон
+ // transform the circle into two arcs
+ // and start a regular polygon entry
  SetLength(Poly,3);SetLength(Bulge,3);
  Poly[0] := Setpoint(Center,Abs(Center.Z), 0, avRight, false);
  Bulge[0]:= Center; Bulge[1]:= Center; Bulge[2]:=Set3dPoint(0,0,0);
@@ -2003,8 +2003,8 @@ end;
 
 
 
-// касательная к окружности до точки
-// ОТЛАЖЕНО в 2007
+// tangent to circle to point
+// POSTPONED 2007
 function PointKasat(P0, Center: T3dPoint) : T3dArray;
 var  dist, A,T  :  double;
 begin
@@ -2018,8 +2018,8 @@ begin
  result[1]:=SetPoint(P0, dist*cos(a), t-a, avRight, false);
 end;
 
- // касательная между двумя окружноcтями
- // ОТЛАЖЕНО в 2007
+ // tangent between two circles
+ // POSTPONED 2007
 function CircleKasat(isUpper : boolean; C1, C2: T3dPoint;var Res : T3dArray):boolean;
 var Alpha, Dist, Teta : double;
 begin;
@@ -2029,14 +2029,14 @@ begin;
  teta:=GetAngle(C1,C2);
  SetLenGth(res,4); result:=true;
  case isUpper of
-  TRUE:  begin     // внешние точки касания
+  TRUE:  begin     // outer touch points
           Alpha :=arcsin((C1.Z-C2.Z)/dist);
           Res[0]:=SetPoint(C1,C1.Z,teta+(pi/2-alpha),avRight,false);
           Res[1]:=SetPoint(C1,C1.Z,teta-(pi/2-alpha),avRight,false);
           Res[2]:=SetPoint(C2,C2.Z,teta+(pi/2-alpha),avRight,false);
           Res[3]:=SetPoint(C2,C2.Z,teta-(pi/2-alpha),avRight,false);
          end;
-  FALSE: begin     // внутренние точки касания
+  FALSE: begin     // interior touch points
           Alpha :=arccos((C2.Z+C1.Z)/dist);
           Res[0]:=SetPoint(C1,C1.Z,teta+alpha,avRight,false);
           Res[1]:=SetPoint(C1,C1.Z,teta-alpha,avRight,false);
@@ -2047,9 +2047,9 @@ begin;
 end;
 
 
-// найти в массиве координат подобие дуг и окружности
-// на вход набор очек в ДЕКАТРОВОЙ СИСТЕМЕ на выход
-// координаты объекта в ДЕКАРТОВОЙ СИСТЕМЕ с учетом дуг, кругов и.т.п.
+// find the similarity of arcs and a circle in an array of coordinates
+// at the input a set of points in the DECARD SYSTEM at the output
+// coordinates of the object in the DECARD SYSTEM, taking into account arcs, circles, etc.
 
 function FindCurve(V : T3dArray; pDist: integer;dA:double): TBorder;
 var A         : T3dArray;
@@ -2119,8 +2119,8 @@ begin
     IncArray(Bulge,[P]) else IncArray(Bulge,[Set3dPoint(0,0,0)]);
    end;
     dIPU:=Distance(V[0],V[High(V)]);
-   // если вычислена 1 дуга в которой длина от нач.точки до конечной равна
-   // длине остальных плеч то - найдена ОКРУЖНОСТЬ !
+   // if 1 arc is calculated in which the length from the start point to the end point is
+   // the length of the remaining shoulders then - found a CIRCLE!
    if ((dIPU<1E-5) or (Abs(dIPU-A[0].X)<pDist*A[0].X/100)) and (Bulge[0].Z<>0) and (LenGth(Vertex)=2)  then
    begin
     SetLenGth(Vertex,1);

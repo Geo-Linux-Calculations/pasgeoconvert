@@ -1,5 +1,5 @@
 //******************************************************************************
-//***                        ГЕОДЕЗИЧЕСКАЯ БИБЛИОТЕКА
+//***                        GEODESIC LIBRARY
 //******************************************************************************
 //
 unit uGisCalc;
@@ -15,7 +15,7 @@ type
 
 
   TEllpsType =
- // планета ЗЕМЛЯ
+ // planet Earth
   (ellNone,ellMerit, ellSGS85, ellGRS80, ellIAU76, ellAiry, ellAPL49,
    ellNWL9D, ellModAriy, ellAndrae, ellAustSA, ellGRS67,
    ellBessel, ellBesselNamibia, ellClark66, ellClark80,
@@ -26,15 +26,15 @@ type
    ellMaupertius, ellNewInternational, ellPlessis, ellSEAsia,
    ellWalbeck, ellWGS60, ellWGS66, ellWGS72, ellWGS84, ellSphere,
 
-  ellMoon, // ЛУНА
-  ellMercury, //Меркурий
-  ellVenus, //Венера
-  ellMars, //Марс
-  ellYupiter, //Юритер
-  ellSaturn,//Сатурн
-  ellUran, //Уран
-  ellNeptun, //Нептун
-  ellPluton, //Плутон
+  ellMoon, // MOON
+  ellMercury, // Mercury
+  ellVenus, // Venus
+  ellMars, // Mars
+  ellYupiter, // Jupiter
+  ellSaturn,// Saturn
+  ellUran, // Uran
+  ellNeptun, // Neptune
+  ellPluton, // Pluton
   ellSun
   );
 
@@ -67,20 +67,20 @@ type
 //=================================================================
 const
  ProjectionsName : array[0..126] of TProjTitle = (
-  (Id: 'aea';    AcId:'AZMEA'; Comm: 'Альберта равноплощадная'),
-  (Id: 'aeqd';   AcId:'AZMED'; Comm: 'Азимутальная давнопромежуточная'),
-  (Id: 'airy';   AcId:''; Comm: 'Эйри'),
-  (Id: 'aitoff'; AcId:''; Comm: 'Аитова'),
-  (Id: 'alsk';   AcId:''; Comm: 'Модифицированная стереографическая (Аляска)'),
+  (Id: 'aea';    AcId:'AZMEA'; Comm: 'Alberta Equal'),
+  (Id: 'aeqd';   AcId:'AZMED'; Comm: 'Azimuthal long-intermediate'),
+  (Id: 'airy';   AcId:''; Comm: 'Airy'),
+  (Id: 'aitoff'; AcId:''; Comm: 'Aitova'),
+  (Id: 'alsk';   AcId:''; Comm: 'Modified stereographic (Alaska)'),
   (Id: 'apian';  AcId:''; Comm: 'Apian Globular I'),
   (Id: 'august'; AcId:''; Comm: 'August Epicycloidal'),
-  (Id: 'bacon';  AcId:''; Comm: 'Бекена сферическая'),
+  (Id: 'bacon';  AcId:''; Comm: 'Becken spherical'),
   (Id: 'bipc';   AcId:'BIPOLAR'; Comm: 'Bipolar conic of western hemisphere'),
   (Id: 'boggs';  AcId:''; Comm: 'Boggs Eumorphic'),
   (Id: 'bonne';  AcId:'BONNE'; Comm: 'Bonne (Werner lat_1=90)'),
-  (Id: 'cass';   AcId:'CASSINI'; Comm: 'Кассини'),
+  (Id: 'cass';   AcId:'CASSINI'; Comm: 'Cassini'),
   (Id: 'cc';     AcId:''; Comm: 'Central Cylindrical'),
-  (Id: 'cea';    AcId:''; Comm: 'Равноплощадная цилиндрическая'),
+  (Id: 'cea';    AcId:''; Comm: 'Equal area cylindrical'),
   (Id: 'chamb';  AcId:''; Comm: 'Chamberlin Trimetric'),
   (Id: 'collg';  AcId:''; Comm: 'Collignon'),
   (Id: 'crast';  AcId:''; Comm: 'Craster Parabolic (Putnins P4)'),
@@ -91,33 +91,33 @@ const
   (Id: 'eck4';   AcId:'ECKERT4'; Comm: 'Eckert IV'),
   (Id: 'eck5';   AcId:''; Comm: 'Eckert V'),
   (Id: 'eck6';   AcId:'ECKERT6'; Comm: 'Eckert VI'),
-  (Id: 'eqc';    AcId:'EDCYL'; Comm: 'Цилиндрическая давнопромежуточная (Карри)'),
-  (Id: 'eqdc';   AcId:'EDCNC'; Comm: 'Коническая давнопромежуточная'),
-  (Id: 'euler';  AcId:''; Comm: 'Эйлера'),
-  (Id: 'fahey';  AcId:''; Comm: 'ФАхея'),
+  (Id: 'eqc';    AcId:'EDCYL'; Comm: 'Cylindrical long-intermediate (Curry)'),
+  (Id: 'eqdc';   AcId:'EDCNC'; Comm: 'Conical long-intermediate'),
+  (Id: 'euler';  AcId:''; Comm: 'Euler'),
+  (Id: 'fahey';  AcId:''; Comm: 'Fahea'),
   (Id: 'fouc';   AcId:''; Comm: 'Foucaut'),
   (Id: 'fouc_s'; AcId:''; Comm: 'Foucaut Sinusoidal'),
-  (Id: 'gall';   AcId:''; Comm: 'Галла (стерограифическая)'),
+  (Id: 'gall';   AcId:''; Comm: 'Gaul (sterographic)'),
   (Id: 'gins8';  AcId:''; Comm: 'Ginsburg VIII (TsNIIGAiK)'),
   (Id: 'gn_sinu';AcId:''; Comm: 'General Sinusoidal Series'),
-  (Id: 'gnom';   AcId:'GNOMONIC'; Comm: 'Гномическая'),
+  (Id: 'gnom';   AcId:'GNOMONIC'; Comm: 'Gnomic'),
   (Id: 'goode';  AcId:'GOODE';    Comm: 'Goode Homolosine'),
   (Id: 'gs48';   AcId:''; Comm: 'Mod. Stererographics of 48 U.S.'),
   (Id: 'gs50';   AcId:''; Comm: 'Mod. Stererographics of 50 U.S.'),
-  (Id: 'hammer'; AcId:''; Comm: 'Хаммера и Эккерта-Грейфендорфа'),
-  (Id: 'hatano'; AcId:''; Comm: 'Ассиметричная равноплощадная Хатано'),
-  (Id: 'imw_p';  AcId:''; Comm: 'Поликоническая международная'),
-  (Id: 'kav5';   AcId:''; Comm: 'Каврайского V'),
-  (Id: 'kav7';   AcId:''; Comm: 'Каврайского VII'),
+  (Id: 'hammer'; AcId:''; Comm: 'Hammer and Eckert-Greifendorf'),
+  (Id: 'hatano'; AcId:''; Comm: 'Asymmetric equal area Hatano'),
+  (Id: 'imw_p';  AcId:''; Comm: 'Polyconic international'),
+  (Id: 'kav5';   AcId:''; Comm: 'Kavraisky V'),
+  (Id: 'kav7';   AcId:''; Comm: 'Kavraisky VII'),
   (Id: 'labrd';  AcId:''; Comm: 'Laborde'),
   (Id: 'lagrng'; AcId:''; Comm: 'Lagrange'),
   (Id: 'larr';   AcId:''; Comm: 'Larrivee'),
   (Id: 'lask';   AcId:''; Comm: 'Laskowski'),
-  (Id: 'latlong';AcId:'LL'; Comm: 'Lat/long (Геоцентрическая)'),
-  (Id: 'longlat';AcId:'LL'; Comm: 'Lat/long (Геоцентрическая)'),
-  (Id: 'laea';   AcId:'LMTAN';    Comm: 'Ламберта азимутальная равноплощадная'),
-  (Id: 'lcc';    AcId:'LM'; Comm: 'Ламберта коническая равноазимутальная'),
-  (Id: 'leac';   AcId:''; Comm: 'Ламберта равноплощадная коническая'),
+  (Id: 'latlong';AcId:'LL'; Comm: 'Lat/long (Geocentric)'),
+  (Id: 'longlat';AcId:'LL'; Comm: 'Lat/long (Geocentric)'),
+  (Id: 'laea';   AcId:'LMTAN';    Comm: 'Lambert azimuthal equal area'),
+  (Id: 'lcc';    AcId:'LM'; Comm: 'Lambert conical equazimuth'),
+  (Id: 'leac';   AcId:''; Comm: 'Lambert equal-area conical'),
   (Id: 'lee_os'; AcId:''; Comm: 'Lee Oblated Stereographic'),
   (Id: 'loxim';  AcId:''; Comm: 'Loximuthal'),
   (Id: 'lsat';   AcId:''; Comm: 'Space oblique for LANDSAT'),
@@ -126,27 +126,27 @@ const
   (Id: 'mbtfpp'; AcId:''; Comm: 'McBride-Thomas Flat-Polar Parabolic'),
   (Id: 'mbtfpq'; AcId:''; Comm: 'McBryde-Thomas Flat-Polar Quartic'),
   (Id: 'mbtfps'; AcId:''; Comm: 'McBryde-Thomas Flat-Polar Sinusoidal'),
-  (Id: 'merc';   AcId:'MRCAT'; Comm: 'Меркатора'),
-  (Id: 'mil_os'; AcId:'MSTERO'; Comm: 'Миллера Стереографическая'),
-  (Id: 'mill';   AcId:'MILLER'; Comm: 'Цилиндрическая Миллера'),
+  (Id: 'merc';   AcId:'MRCAT'; Comm: 'Mercator'),
+  (Id: 'mil_os'; AcId:'MSTERO'; Comm: 'Miller Stereographic'),
+  (Id: 'mill';   AcId:'MILLER'; Comm: 'Cylindrical Miller'),
   (Id: 'mpoly';  AcId:''; Comm: 'Modified Polyconic'),
-  (Id: 'moll';   AcId:'MOLLWEID'; Comm: 'Моллвейда'),
-  (Id: 'murd1';  AcId:''; Comm: 'Мурдоча I'),
-  (Id: 'murd2';  AcId:''; Comm: 'Мурдоча II'),
-  (Id: 'murd3';  AcId:''; Comm: 'Мурдоча III'),
-  (Id: 'nell';   AcId:''; Comm: 'Нелла'),
-  (Id: 'nell_h'; AcId:''; Comm: 'Нелла-Хаммера'),
+  (Id: 'moll';   AcId:'MOLLWEID'; Comm: 'Mallweida'),
+  (Id: 'murd1';  AcId:''; Comm: 'Murdocha I'),
+  (Id: 'murd2';  AcId:''; Comm: 'Murdocha II'),
+  (Id: 'murd3';  AcId:''; Comm: 'Murdocha III'),
+  (Id: 'nell';   AcId:''; Comm: 'Nella'),
+  (Id: 'nell_h'; AcId:''; Comm: 'Nella-Hammer'),
   (Id: 'nicol';  AcId:''; Comm: 'Nicolosi Globular'),
   (Id: 'nsper';  AcId:''; Comm: 'Near-sided perspective'),
-  (Id: 'nzmg';   AcId:'NZEALAND'; Comm: 'Ново-Зеландская по сетке'),
+  (Id: 'nzmg';   AcId:'NZEALAND'; Comm: 'New Zealand Grid'),
   (Id: 'ob_tran';AcId:''; Comm: 'General Oblique Transformation'),
-  (Id: 'ocea';   AcId:''; Comm: 'Косая цилиндрическая равноплощадная'),
+  (Id: 'ocea';   AcId:''; Comm: 'Oblique cylindrical equal area'),
   (Id: 'oea';    AcId:''; Comm: 'Oblated Equal Area'),
-  (Id: 'omerc';  AcId:''; Comm: 'Косая Меркатора'),
+  (Id: 'omerc';  AcId:''; Comm: 'Oblique Mercator'),
   (Id: 'ortel';  AcId:''; Comm: 'Ortelius Oval'),
-  (Id: 'ortho';  AcId:'ORTHO'; Comm: 'Ортографическая'),
-  (Id: 'pconic'; AcId:''; Comm: 'Перспективная коническая'),
-  (Id: 'poly';   AcId:'PLYCN'; Comm: 'Поликоническая (Американская)'),
+  (Id: 'ortho';  AcId:'ORTHO'; Comm: 'Orthographic'),
+  (Id: 'pconic'; AcId:''; Comm: 'Perspective conical'),
+  (Id: 'poly';   AcId:'PLYCN'; Comm: 'Polyconic (American)'),
   (Id: 'putp1';  AcId:''; Comm: 'Putnins P1'),
   (Id: 'putp2';  AcId:''; Comm: 'Putnins P2'),
   (Id: 'putp3';  AcId:''; Comm: 'Putnins P3'),
@@ -157,51 +157,51 @@ const
   (Id: 'putp6';  AcId:''; Comm: 'Putnins P6'),
   (Id: 'putp6p'; AcId:''; Comm: 'Putnins P6p'),
   (Id: 'qua_aut';AcId:''; Comm: 'Quartic Authalic'),
-  (Id: 'robin';  AcId:'ROBINSON'; Comm: 'Робинсона'),
+  (Id: 'robin';  AcId:'ROBINSON'; Comm: 'Robinson'),
   (Id: 'rpoly';  AcId:''; Comm: 'Rectangular Polyconic'),
-  (Id: 'sinu';   AcId:'SINUS'; Comm: 'Синусоидальная (Сансона-Фламстида)'),
-  (Id: 'somerc'; AcId:'SWISS'; Comm: 'Меркатора (Швейцария)'),
-  (Id: 'stereo'; AcId:''; Comm: 'Стереографическая'),
-  (Id: 'tcc';    AcId:''; Comm: 'Поперечная центральная-цилиндрическая'),
-  (Id: 'tcea';   AcId:'TEACYL'; Comm: 'Поперечная цилиндрическая равноплощадная'),
-  (Id: 'tissot'; AcId:''; Comm: 'Тиссота'),
-  (Id: 'tmerc';  AcId:'TM'; Comm: 'Поперечная Меркатора'),
-  (Id: 'tpeqd';  AcId:''; Comm: 'Равно-дистанционная на базе 2-х точек'),
-  (Id: 'tpers';  AcId:''; Comm: 'Косая перспективная'),
-  (Id: 'ups';    AcId:'PSTEROSL'; Comm: 'Полярная-стерограифческая (универсальная)'),
-  (Id: 'urm5';   AcId:''; Comm: 'Урмаева V'),
-  (Id: 'urmfps'; AcId:''; Comm: 'Урмаева Flat-Polar Sinusoidal'),
-  (Id: 'utm';    AcId:'UTM'; Comm: '(UTM) Универсальная поперечная Меркатора'),
-  (Id: 'vandg';  AcId:'VDGRNTN'; Comm: 'Ван дер Гринтена I'),
-  (Id: 'vandg2'; AcId:''; Comm: 'Ван дер Гринтена II'),
-  (Id: 'vandg3'; AcId:''; Comm: 'Ван дер Гринтена III'),
-  (Id: 'vandg4'; AcId:''; Comm: 'Ван дер Гринтена IV'),
-  (Id: 'vitk1';  AcId:''; Comm: 'Витковского I'),
-  (Id: 'wag1';   AcId:''; Comm: 'Вагнера I (Каврайского VI)'),
-  (Id: 'wag2';   AcId:''; Comm: 'Вагнера II'),
-  (Id: 'wag3';   AcId:''; Comm: 'Вагнера III'),
-  (Id: 'wag4';   AcId:''; Comm: 'Вагнера IV'),
-  (Id: 'wag5';   AcId:''; Comm: 'Вагнера V'),
-  (Id: 'wag6';   AcId:''; Comm: 'Вагнера VI'),
-  (Id: 'wag7';   AcId:''; Comm: 'Вагнера VII'),
-  (Id: 'weren';  AcId:''; Comm: 'Верешникова I'),
-  (Id: 'wink1';  AcId:'WINKEL'; Comm: 'Уинкеля I'),
-  (Id: 'wink2';  AcId:''; Comm: 'Уинкеля II'),
-  (Id: 'wintri'; AcId:''; Comm: 'Уинкеля-Трипела'),
-  (Id: 'lcca';   AcId:''; Comm: 'Ламберта коническая альтерн. вариант'),
-  (Id: 'krovak'; AcId:'KROVAK'; Comm: 'Кровака'),
-  (Id: 'geocent';AcId:''; Comm: 'Геоцентрическая'),
-  (Id: 'gauss';  AcId:'GAUSSK'; Comm: 'Гаусса-Крюгерра'),
-//  (Id: 'pz90';   AcId:'PZ90'; Comm: 'ПЗ-90'),
-//  (Id: 'ck95';   AcId:'CK95'; Comm: 'СК-95'),
-  (Id: 'ck63';   AcId:'CK63'; Comm: 'СК-63'),
-  (Id: 'MCK';   AcId:'MCK-R'; Comm: 'MCK на базе CK63')
+  (Id: 'sinu';   AcId:'SINUS'; Comm: 'Sinusoidal (Sansona-Flamsteed)'),
+  (Id: 'somerc'; AcId:'SWISS'; Comm: 'Mercator (Switzerland)'),
+  (Id: 'stereo'; AcId:''; Comm: 'Stereographic'),
+  (Id: 'tcc';    AcId:''; Comm: 'Transverse central-cylindrical'),
+  (Id: 'tcea';   AcId:'TEACYL'; Comm: 'Transverse cylindrical equal area'),
+  (Id: 'tissot'; AcId:''; Comm: 'Tissot'),
+  (Id: 'tmerc';  AcId:'TM'; Comm: 'Transverse Mercator'),
+  (Id: 'tpeqd';  AcId:''; Comm: 'Equal distance based on 2 points'),
+  (Id: 'tpers';  AcId:''; Comm: 'Oblique perspective'),
+  (Id: 'ups';    AcId:'PSTEROSL'; Comm: 'Polar-sterographic (universal)'),
+  (Id: 'urm5';   AcId:''; Comm: 'Urmaeva V'),
+  (Id: 'urmfps'; AcId:''; Comm: 'Urmaeva Flat-Polar Sinusoidal'),
+  (Id: 'utm';    AcId:'UTM'; Comm: '(UTM) Universal transverse Mercator'),
+  (Id: 'vandg';  AcId:'VDGRNTN'; Comm: 'Van der Grinten I'),
+  (Id: 'vandg2'; AcId:''; Comm: 'Van der Grinten II'),
+  (Id: 'vandg3'; AcId:''; Comm: 'Van der Grinten III'),
+  (Id: 'vandg4'; AcId:''; Comm: 'Van der Grinten IV'),
+  (Id: 'vitk1';  AcId:''; Comm: 'Vitkovsky I'),
+  (Id: 'wag1';   AcId:''; Comm: 'Wagner I (Kavraisky VI)'),
+  (Id: 'wag2';   AcId:''; Comm: 'Wagner II'),
+  (Id: 'wag3';   AcId:''; Comm: 'Wagner III'),
+  (Id: 'wag4';   AcId:''; Comm: 'Wagner IV'),
+  (Id: 'wag5';   AcId:''; Comm: 'Wagner V'),
+  (Id: 'wag6';   AcId:''; Comm: 'Wagner VI'),
+  (Id: 'wag7';   AcId:''; Comm: 'Wagner VII'),
+  (Id: 'weren';  AcId:''; Comm: 'Wereshnikova I'),
+  (Id: 'wink1';  AcId:'WINKEL'; Comm: 'Winkel I'),
+  (Id: 'wink2';  AcId:''; Comm: 'Winkel II'),
+  (Id: 'wintri'; AcId:''; Comm: 'Winkel-Triplea'),
+  (Id: 'lcca';   AcId:''; Comm: 'Lambert conical alternative option'),
+  (Id: 'krovak'; AcId:'KROVAK'; Comm: 'Krovaka'),
+  (Id: 'geocent';AcId:''; Comm: 'Geocentric'),
+  (Id: 'gauss';  AcId:'GAUSSK'; Comm: 'Gauss-Krugerr'),
+//  (Id: 'pz90';   AcId:'PZ90'; Comm: 'PZ-90'),
+//  (Id: 'ck95';   AcId:'CK95'; Comm: 'CK-95'),
+  (Id: 'ck63';   AcId:'CK63'; Comm: 'CK-63'),
+  (Id: 'MCK';   AcId:'MCK-R'; Comm: 'MCK based on CK63')
 );
 
 
 
 Ellipsoids : array[TEllpsType] of TEllipsoidProperty = (
-(ename:'ПУСТОЙ СФЕРОИД';a:6000000;b:6000000;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 1.66666E-7;rf: 0;code:'Empty'),
+(ename:'EMPTY SPHEROID';a:6000000;b:6000000;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 1.66666E-7;rf: 0;code:'Empty'),
 (eName:'MERIT 1983';a:6378137.0;b:6356752.29821597;e: 0.08181922;es: 0.00669438499958719;one_es: 0.993305615000413;rone_es: 1.00673950181947;
   ra: 0.15678559428874E-6;rf: 0.00335281317789691;code:'MERIT'),
 (ename:'Soviet Geodetic System 85';a:6378136.0;b:6356751.30156878;e: 0.08181922;
@@ -284,16 +284,16 @@ one_es: 0.99330562000985889;rone_es:1.0067394967422762251591434067861;ra:0.15678
 rf: 0.00335281066474748;code:'WGS84'),
 (ename:'Normal Sphere (r=6370997)';a:6370997.0;b:6370997;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 0.156961304486566E-6;rf: 0;code:'sphere'),
 
-(ename:'Лунный сфероид';a:1738000.0;b:1738000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 5.7537399309551208285385500575374e-7;rf: 0;code:'Moon'),
-(ename:'Меркурий';a:2424000.0;b:2424000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 4.1254125412541254125412541254125e-7;rf: 0;code:'Mercury'),
-(ename:'Венера';  a:6059000.0;b:6059000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 1.6504373659019640204654233371844e-7;rf: 0;code:'Venus'),
-(ename:'Марс';a:3380000;b:3379924.632;e: 0.006678;es: 4.45957E-05;one_es: 0.999955404;rone_es: 1.000044598;ra: 2.95858E-07;rf: 2.22981E-05;code:'Mars'),
-(ename:'Юпитер';a:71436000;b:71296340.04;e:0.0625;es:0.00390625;one_es: 0.99609375;rone_es: 1.003921569; ra: 1.39985E-08;rf: 0.001955036;code:'Yupiter'),
-(ename:'Сатурн';a:60591000;b:60287283.8;e:0.1;es:0.01;one_es: 0.99;rone_es: 1.01010101;ra:1.65041E-08;rf: 0.005012563;code:'Saturn'),
-(ename:'Уран';a:24874000;b:24866225.66;e:0.025;es:0.000625;one_es:0.999375;rone_es: 1.000625391; ra: 4.02026E-08;rf: 0.000312549;code:'Uran'),
-(ename:'Нептун';a:24874000;b:24870405.45;e:0.017;es:0.000289;one_es: 0.999711;rone_es: 1.000289084;ra:4.02026E-08;rf:0.00014451;code:'Neptun'),
-(ename:'Плутон';a:1275000.0;b:1275000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 7.8431372549019607843137254901961e-7;rf: 0;code:'Pluton'),
-(ename:'Солнце';a:695866000.0;b:695866000.0;e: 0;es: 0;one_es: 1;rone_es: 1; ra: 1.4370582842098909847585598376699e-9;rf: 0;code:'Sun')
+(ename:'Lunar spheroid';a:1738000.0;b:1738000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 5.7537399309551208285385500575374e-7;rf: 0;code:'Moon'),
+(ename:'Mercury';a:2424000.0;b:2424000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 4.1254125412541254125412541254125e-7;rf: 0;code:'Mercury'),
+(ename:'Venus';  a:6059000.0;b:6059000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 1.6504373659019640204654233371844e-7;rf: 0;code:'Venus'),
+(ename:'Mars';a:3380000;b:3379924.632;e: 0.006678;es: 4.45957E-05;one_es: 0.999955404;rone_es: 1.000044598;ra: 2.95858E-07;rf: 2.22981E-05;code:'Mars'),
+(ename:'Jupiter';a:71436000;b:71296340.04;e:0.0625;es:0.00390625;one_es: 0.99609375;rone_es: 1.003921569; ra: 1.39985E-08;rf: 0.001955036;code:'Yupiter'),
+(ename:'Saturn';a:60591000;b:60287283.8;e:0.1;es:0.01;one_es: 0.99;rone_es: 1.01010101;ra:1.65041E-08;rf: 0.005012563;code:'Saturn'),
+(ename:'Uran';a:24874000;b:24866225.66;e:0.025;es:0.000625;one_es:0.999375;rone_es: 1.000625391; ra: 4.02026E-08;rf: 0.000312549;code:'Uran'),
+(ename:'Neptune';a:24874000;b:24870405.45;e:0.017;es:0.000289;one_es: 0.999711;rone_es: 1.000289084;ra:4.02026E-08;rf:0.00014451;code:'Neptun'),
+(ename:'Pluton';a:1275000.0;b:1275000.0;e: 0;es: 0;one_es: 1;rone_es: 1;ra: 7.8431372549019607843137254901961e-7;rf: 0;code:'Pluton'),
+(ename:'Sun';a:695866000.0;b:695866000.0;e: 0;es: 0;one_es: 1;rone_es: 1; ra: 1.4370582842098909847585598376699e-9;rf: 0;code:'Sun')
 );
 
 
@@ -448,17 +448,17 @@ type
    fForward       : function  (lp:T3dPoint; PJ:PCustomProj):T3dPoint;
    fInverse       : function  (xy:T3dPoint; PJ:PCustomProj):T3dPoint;
    fSpecial       : procedure (lp:T3dPoint; PJ:PCustomProj);
-   Geoc           : byte;         // признак геоцентрической проекции
-   south          : byte;         // Полушарие
+   Geoc           : byte;         // geocentric projection feature
+   south          : byte;         // Hemisphere
    is_latlong     : byte;         // proj=latlong ... not really a projection at all */
    is_geocent     : byte;         // proj=geocent ... not really a projection at all */
-   B1,B2,                         // паралели
-   L1,L2,                         // мередианы
-   Bts,Lc         : double;       // ts паралель, базовый мередиан
-   C0             : T3dPoint;     // центр координатной системы
-   x0,y0,                         // смещение центра КС X,Y в метрах
-   k0,                            // коефициент масштабирования
-   to_meter       : double;       // коефициент преобразования в метры
+   B1,B2,                         // parallels
+   L1,L2,                         // meridians
+   Bts,Lc         : double;       // ts parallel, prime meridian
+   C0             : T3dPoint;     // coordinate system center
+   x0,y0,                         // shift of the center of the CS X,Y in meters
+   k0,                            // scaling factor
+   to_meter       : double;       // conversion factor to meters
    from_greenwich : double;       // prime meridian offset (in radians)
    eType          : TEllpsType;
    Ellps          : TEllipsoidProperty;
@@ -484,10 +484,10 @@ type
  end;
 
  TNomenclature42 = packed record
-   iScale  : cardinal;  // индекс масштаб
-   IsSouth : boolean;   // южное полушарие
-   Row10   : byte;      // номер строки  10 км разграфки
-   Col10   : byte;      // номер столбца 10 км разграфки
+   iScale  : cardinal;  // index scale
+   IsSouth : boolean;   // southern hemisphere
+   Row10   : byte;      // line number 10 km break
+   Col10   : byte;      // column number 10 km breakdown
    case byte of
     5 : (n500 : TNumberQuad);
     2 : (n200 : TNumber200);
@@ -500,7 +500,7 @@ type
    B1, L1  : extended;
    Error   : boolean;
    IsSouth : byte;
-   Scale   : cardinal;  // масштаб
+   Scale   : cardinal;  // scale
  end;
 
 
@@ -508,69 +508,69 @@ type
 
   procedure ClearProjObject(var PJ : TCustomProj);
 
-  //  инициализация объекта - "ПРОЕКЦИЯ"   с параметрами
+  //  object initialization - "PROJECTION" with parameters
 
   function  CreateProjObject(Ellipsoid:TEllpsType;Center:T3dPoint;uType:TUnitsType):TCustomProj;overload;
-  // инициализация объекта - "ПРОЕКЦИЯ" с параметрами в виде строки
-  // в данном изложении инициализируется также проекция,конверторы и параметры
-  // если строка начинается с символов proj - декодируються параметры
-  //  ----//---- с NAD: следующим должен быть индекс проекции в файле NAD.txt
-  //  по пути  NadPath
+  // object initialization - "PROJECTION" with string parameters
+  // in this presentation, the projection, converters and parameters are also initialized
+  // if the string begins with characters proj - the parameters are decoded
+  //  ----//---- с NAD: next should be projection index in NAD.txt file
+  //  in path  NadPath
   function  CreateProjObject(const Value,NadPath: string):TCustomProj;overload;
-  // инициализация проекции созданая функцией  СreateProjObject(Ellipsoid:...
-  // все начальные параметры должны быть заранеее инициализированы
-  // если PjIndex не задан или <0 проекции PJ.pName.pIndex
-  // функция ищет нужную проекция по значению PJ.pName.Ident
+  // initialization of the projection created by the function  СreateProjObject(Ellipsoid:...
+  // all initial parameters must be initialized beforehand
+  // if PjIndex is not set or projection <0 PJ.pName.pIndex
+  // the function searches for the desired projection by the value of PJ.pName.Ident
   procedure InitSwichProjection(var PJ : TCustomProj;const PjIndex:integer = -1);
 
-  // Прямая (обратная) геодезические задачи
+  // Direct (inverse) geodesic problems
   // AD - X-dist, Y-azimuth
   function TrueGeoTask(Ellps: TEllpsType;const P1: T3dPoint;Azimuth,Dist: double): T3dPoint;//overload;
   function ReversGeoTask(Ellps: TEllpsType;const P1,P2 : T3dPoint): T3dPoint;//overload;
 
-  // преобразование геодезических координат в координаты проекции
+  // converting geodetic coordinates to projection coordinates
   function  GeoToPlane(PJ:TCustomProj;BL:T3dPoint):T3dPoint;overload;
   function  GeoToPlane(PJ:TCustomProj;B,L:double):T3dPoint;overload;
   function  GeoToPlane(PJ:TCustomProj;BL:T3dArray):T3dArray;overload;
 
-  // преобразование координат проекции в геодезические координат
+  // converting projection coordinates to geodetic coordinates
   function  PlaneToGeo(PJ:TCustomProj;pXY:T3dPoint):T3dPoint;overload;
   function  PlaneToGeo(PJ:TCustomProj;X,Y:double):T3dPoint;overload;
   function  PlaneToGeo(PJ:TCustomProj;XY:T3dArray):T3dArray;overload;
-  // преобразование геодезических координат в Декартовы координаты
+  // converting geodetic coordinates to Cartesian coordinates
   function  GeoToXYZ(gPnt:T3dPoint;Ellps:TEllipsoidProperty):T3dPoint; overload;
   function  GeoToXYZ(gPnt:T3dPoint;Ellps:TEllpsType): T3dPoint; overload;
   function  GeoToXYZ(gArr:T3dArray;Ellps:TEllpsType): T3dArray; overload;
 
-  // преобразование  Декартовых координат в геодезические координат
+  // пconverting Cartesian coordinates to geodetic coordinates
   function XYZToGeo(mPnt:T3dPoint;Ellps:TEllipsoidProperty): T3dPoint; overload;
   function XYZToGeo(mPnt:T3dPoint;Ellps:TEllpsType): T3dPoint; overload;
   function XYZToGeo(mArr:T3dArray;Ellps:TEllpsType): T3dArray; overload;
 
-  // мат.угол мередиана в заданой точке
+  // mat.meridian angle at a given point
   function GetPolarAngle(PJ:TCustomProj;gPnt : T3dPoint):double;
 
   function DekartToGeo(Ellps: TEllpsType;gBase, mPoint: T3dPoint; RotCS: double): T3dPoint;
   function GeoToDekart(Ellps: TEllpsType;gBase, gPoint: T3dPoint; RotCS: double): T3dPoint;
 
 
-  // преобразование геодезических кооординат с разных систем координат
+  // transformation of geodetic coordinates from different coordinate systems
   function ConvertCoordinate(gPnt:T3dpoint;Src,Dest: TEllpsType;DP:TDatumParam):T3dPoint; overload;
   function ConvertCoordinate(gA:T3dArray;Src,Dest: TEllpsType;DP:TDatumParam):T3dArray; overload;
 
   function ConvertCoordinate(gPnt:T3dpoint;PJ:TCustomProj):T3dPoint; overload;
   function ConvertCoordinate(gA:T3dArray;  PJ:TCustomProj):T3dArray; overload;
 
-  // рас(за)шифровка величин в радианах в строку
+  // de(en)cryption of values in radians into a string
   function DMS(const aValue : string) : double; overload;
   function DMS(aRadValue : double; Prec : byte; DegType: TDegType):string;overload;
   function DMS(aRadValue : double; IsLong: byte; const Prec : byte = 0) : string;overload;
-  // нормирование координат по закону геодезических кооординат
+  // normalization of coordinates according to the law of geodetic coordinates
   function adjlon(lon:double):double; overload;
   function adjlon(Value:double; Latitude : boolean):double; overload;
 
   //         PROJECTION INITED FUNCTION
-  // инициализация отдельных проекций
+  // initialization of individual projections
   procedure InitAEA(var PJ : TCustomProj;B1,B2 : double);
   procedure InitAeqd(var PJ : TCustomProj;IsGuam : byte);
 
@@ -696,14 +696,14 @@ type
   procedure InitWeren(var PJ : TCustomProj);
   procedure InitWagner(var PJ : TCustomProj; wType : TWagnerMode;Bts:double);
 
-  // получить текст ошибки
+  // get error text
   function GetErrorString(PJ:TCustomProj):string;
 
-  // ============ дополнительные процедуры  ===============
-  // по точке в радианах, определить номенклатурный лист указаного масштаба в СК42
+  // ============ additional procedures  ===============
+  // by point in radians, determine the nomenclature sheet of the specified scale in CK42
   procedure PointToNomenclature42(PointRad: T3dPoint; Scale : cardinal; var Value:TNomenclature42); overload;
   function PointToNomenclature42(PointRad: T3dPoint; Scale : cardinal): string; overload;
-  // по номенклатуре определить рамку СК42
+  // by the nomenclature determine the frame CK42
   function NomenclatureToRect42(const Quad : string; const ResultType : TCoordType = ctDMS): TQLongLat;
 
 
@@ -740,7 +740,7 @@ const
  EPS      = 1e-11;
  MAX_ITER = 10;
  EPSILON  = 1.0e-7;
- // константы проекций (стерегорафических)
+ // projection constants (stereographic)
  const
    // Miller Oblated Stereographic
   CmpMiller : array [0..2] of TComplex =
@@ -859,50 +859,50 @@ const
 
  ErrorList : array[1..44] of string =
 (
-	'недостаточно аргументов для инициализации',	//  -1 */
+	'not enough arguments to initialize',	//  -1 */
 	'no options found in "init" file',		//  -2 */
 	'no colon in init= string',			//  -3 */
-	'безимяная проекция',				//  -4 */
-	'неопознаная проекция',			        //  -5 */
-	'Ексцентретитет равен еденице' ,	        //  -6 */
+	'nameless projection',				//  -4 */
+	'unidentified projection',			        //  -5 */
+	'eccentricity equal to one' ,	        //  -6 */
 	'unknown unit conversion id',			//  -7 */
 	'invalid boolean param argument',		//  -8 */
-	'Неопознаный параметр еллипсоида',	        //  -9 */
-	'Сжатие еллипсоида равно нулю',		        // -10 */
+	'unidentified ellipsoid parameter',	        //  -9 */
+	'ellipsoid squeeze is zero',		        // -10 */
 	'|radius reference latitude| > 90',		// -11 */
-	'Квадрат ексцентретитета равен нулю',	        // -12 */
-	'Радиус или малая полуось нулевая',	        // -13 */
+	'the square of the eccentricity is zero',	        // -12 */
+	'radius or semi-minor axis zero',	        // -13 */
 	'latitude or longitude exceeded limits',	// -14 */
-	'Ошибка смещения по X или Y',			// -15 */
+	'X or Y offset error',			// -15 */
 	'improperly formed DMS value',			// -16 */
 	'non-convergent inverse meridinal dist',	// -17 */
 	'non-convergent inverse phi2',			// -18 */
 	'acos/asin: |arg|>1.+1e-14',			// -19 */
-	'Ошибка условия',			        // -20 */
-	'Зеркальные паралели конической проекции',	// -21 */
-	'Базовая широта более или равна 90°',		// -22 */
-	'Базовая широта равна 0°',			// -23 */
-	'Опорная широта более или равна 90°',		// -24 */
-	'Некоторые контрольные точки совпадают',	// -25 */
+	'condition error',			        // -20 */
+	'mirror parallel conic projection',	// -21 */
+	'base latitude greater than or equal to 90°',		// -22 */
+	'base latitude is 0°',			// -23 */
+	'reference latitude greater than or equal to 90°',		// -24 */
+	'some breakpoints are the same',	// -25 */
 	'projection not selected to be rotated',	// -26 */
-	'Параметры W,M менее или равны нулю',		// -27 */
-	'Параметр lsat выходит за предел 1..5',		// -28 */
-	'Параметр path выходит за предел',		// -29 */
-	'Параметр h <= 0',				// -30 */
-	'Параметр k <= 0',				// -31 */
-	'Опорная широта = 0 или 90° или alpha=90°',	// -32 */
-	'Опорные широты равны, или равна 0 или 90°',	// -33 */
-	'Проекция используется только на еллипсоиде',	// -34 */
-	'Ошибка номера зоны',		                // -35 */
+	'parameters W, M are less than or equal to zero',		// -27 */
+	'lsat parameter out of limit 1..5',		// -28 */
+	'path is out of range',		// -29 */
+	'parameter h <= 0',				// -30 */
+	'parameter k <= 0',				// -31 */
+	'reference latitude = 0 or 90° or alpha=90°',	// -32 */
+	'reference latitudes are equal, or equal to 0 or 90°',	// -33 */
+	'the projection is used only on ellipsoid',	// -34 */
+	'zone number error',		                // -35 */
 	'arg(s) out of range for Tcheby eval',		// -36 */
 	'failed to find projection to be rotated',	// -37 */
 	'failed to load NAD27-83 correction file',  	// -38 */
 	'both n & m must be spec d and > 0',		// -39 */
 	'n <= 0, n > 1 or not specified',		// -40 */
-	'Не указана дона из базовых широт',		// -41 */
-	'Постоянные паралели равны',			// -42 */
+	'don from base latitudes is not indicated',		// -41 */
+	'constant parallels are equal',			// -42 */
 	'lat_0 is pi/2 from mean lat',			// -43 */
-	'Неопределена координатная система' 	        // -44 //
+	'the coordinate system is undefined' 	        // -44 //
 );
 
 
@@ -1002,9 +1002,9 @@ end;
 
 
 
-// ПРЯМАЯ И ОБРАТНАЯ ЗАДАЧИ
-// "внешние" переменные заполняемые функцией CalcDelta (см.ниже)
-// для анализа в обратной геодезической задаче
+// DIRECT AND INVERSE PROBLEMS
+// "external" variables filled with the CalcDelta function (see below)
+// for analysis in the inverse geodesic problem
 
 function _CalcDelta(Ellps: TEllipsoidProperty;P1:T3dpoint;Dist,Azim:extended;IsCalcK:boolean;var P0: T3dPoint) : T3dPoint;
 var  T2, N2, U2, v2, nu,_v, _u, L,
@@ -1021,7 +1021,7 @@ begin
  cosp1:=1/cos(P1.X);
  V:=sqrt(1+N2);
  v_c:=V*FCTask; vc2:=sqr(v_c); vc3:=power(v_c,3);
- // "внешние" переменные для анализа в обратной геодезической задаче
+ // "external" variables for analysis in an inverse geodetic problem
  // b1
  P0.B := v_c*(1+N2);
  // l1
@@ -1049,13 +1049,13 @@ end;
 
 
 
- // ПРЯМАЯ ЗАДАЧА
+ // DIRECT PROBLEM
 function TrueGeoTask(Ellps: TEllpsType;const P1: T3dPoint; Azimuth,Dist: double): T3dPoint;
 var  P0,D : T3dpoint;
      E    : TEllipsoidProperty;
 begin
   result:=P1;
- // если дистанция долее половини екватора Земли
+ // if the distance is more than half the Earth's equivalent
   if IsNan(Dist) or (Dist>2e7) or (Azimuth>1e2) then exit;
   E:=Ellipsoids[Ellps];
   D:=_CalcDelta(E,P1,Dist,Azimuth,false,P0);
@@ -1065,7 +1065,7 @@ begin
   result.L:=adjlon(result.L);
 end;
 
-// ОБРАТНАЯ ЗАДАЧА
+// INVERSE PROBLEM
 // X - dist  Y-A12  z-A21
 function ReversGeoTask(Ellps: TEllpsType;const P1,P2 : T3dPoint): t3dPoint;
 var DeltaL,DeltaB,MinB,
@@ -1142,7 +1142,7 @@ end;
 
   // CK42 => WGS84  +28.0 -130.0 -95.0
   // WGS84 => CK42  -28.0 130.0   95.0
-  // РАБОТАЕТ !!!!
+  // WORKS !!!!
 
 function Convert3Param(gP:T3dpoint;Src,Dest: TEllipsoidProperty;DP:TDatumParam):T3dPoint;
 var P, v  : double;
@@ -1164,7 +1164,7 @@ end;
 
 
 
-  // РАБОТАЕТ !!!!
+  // WORKS !!!!
 function Convert7Param(gPnt:T3dPoint;S,D:TEllipsoidProperty; DP:TDatumParam):T3dPoint;
 var MT1        : array[0..2,0..8] of double;
     Wr         : T3dPoint;
@@ -1181,16 +1181,16 @@ begin
  cy:=cos(gPnt.L); sy:=sin(gPnt.L);
  dA:=1+eEq*cos(2*gPnt.X);
  Wr.X:=M+gPnt.Z;
-  // РЯД1
+  // ROW1
  MT1[0,0]:=N*eEq*sx*cx/D.a;  MT1[0,1]:=0.5*N*(sqr(N/D.a)+1)*sx*cx;
  MT1[0,2]:=-cy*sx;           MT1[0,3]:=-sy*sx;      MT1[0,4]:=cx;
  MT1[0,5]:=-Wr.X*dA*sy;      MT1[0,6]:= Wr.X*dA*cy; MT1[0,8]:=-Wr.X*eEq*sx*cx;
-  // РЯД2
+  // ROW2
  Wr.Y:=cx*tan(gPnt.X)*(1-eEq);
  Wr.X:=N+gPnt.Z;
  MT1[1,2]:=-sy;              MT1[1,3]:=cy;          MT1[1,5]:= Wr.X*Wr.Y*cy;
  MT1[1,6]:= Wr.X*Wr.Y*sy;    MT1[1,7]:=-Wr.X*cx;
-  // РЯД3
+  // ROW3
  MT1[2,0]:=-D.a/N;           MT1[2,1]:=N*sx*sx/2;   MT1[2,2]:=cy*cx;
  MT1[2,3]:=sy*cx;            MT1[2,4]:=sx;          MT1[2,5]:=-N*eEq*sx*cx*sy;
  MT1[2,6]:= N*eEq*sx*cx*cy;  MT1[2,8]:=sqr(S.a)/N+gPnt.Z;
@@ -1767,7 +1767,7 @@ pj_zpoly1(COMPLEX z, COMPLEX *C, int n) {
 
 }
 
-// Оценка сложного полиномиала
+// Estimating a Complex Polynomial
 
 function pj_zpoly1(Z:TComplex;const C : array of TComplex):TComplex;
 
@@ -1792,7 +1792,7 @@ begin
  result.i := z.r*a.i+z.i*t;
 end;
 
-// Оценка сложного полиномиала и производная
+// Complex polynomial estimate and derivative
 function pj_zpolyd1(Z:TComplex;const C : array of TComplex;var der : TComplex):TComplex;
 var t       : double;
     i,n     : integer;
@@ -1879,7 +1879,7 @@ begin
  result.lam := xy.x*PJ.Ellps.a;
 end;
 
-// оно же InitLongLat
+// aka InitLongLat
 procedure InitLatLong(var PJ : TCustomProj);
 begin
  PJ.is_latlong := 1;
@@ -2489,7 +2489,7 @@ begin
 end;
 
 
-// Ok!!! (неточно)
+// Ok!!! (not exactly)
 
 function RobinsonForward(lp: T3dPoint;PJ : PCustomProj):T3dPoint; //spheroid
 var i    : integer;
@@ -3229,18 +3229,20 @@ end;
 
 //PROJ_HEAD(krovak, "Krovak") "\n\tPCyl., Sph.";
 
-{ ПОРИМЕЧАНИЕ:
-   Согласно EPSG полный Krovak метод проектирования должен иметь следующие параметры.
-   В пределах PROJ.4 азимут, и псевдо стандарт параллельный трудно закодирован в
-   алгоритме и не может быть изменен снаружи. Другие все имеют неплатежи, чтобы
-   соответствовать общему(обычному) использованию с Krovak проектированием.
+{ NOTE:
+    According to EPSG, the complete Krovak design method should have the
+    following parameters.
+    Within PROJ.4, the azimuth and pseudo standard parallel are hard coded
+    in the algorithm and cannot be changed externally.
+    Others all have defaults to fit common use with Krovak projection.
 
-  lat_0 = широта начала КС    lon_0 = долгота начала КС
-  ** = Истинный азимут из линии центра, проходящей через центр КС
-  ** = Широта стандартной псевдопараллели
-  k  = ед.изм. стандартной псевдопараллели
-  x_0 = 0 если восточное полушарие
-  y_0 = 0 если северное полушарие }
+  lat_0 = latitude of CS start
+  lon_0 = longitude of CS start
+  ** = True azimuth from center line through CS center
+  ** = Width of standard pseudo-parallel
+  k  = unit standard pseudo-parallel
+  x_0 = 0 if the eastern hemisphere
+  y_0 = 0 if northern hemisphere }
 
 function KrovakForward(pntBL: T3dPoint;PJ : PCustomProj):T3dPoint; //spheroid
   // Constants, identical to inverse transform function
@@ -3415,13 +3417,13 @@ end;
 
   //+lat_1=10 +lon_1=10 +lat_2=20 +lon_2=20 +lat_3=20 +lon_3=10
 
-// 3- опорные точки
+// 3- reference points
 procedure InitChamberlin(var PJ : TCustomProj;P0,P1,P2:T3dPoint);
 var i, j : integer;
 begin
   if IsInfinite(PJ.C0.lam) then PJ.C0.lam:=0;
   FillChar(PJ.Other.Chamb,SizeOf(PJ.Other.Chamb),0);
-  // 3- опорные точки
+  // 3- reference points
   with PJ.Other.Chamb do
   begin
    PT[0].P:=p0;
@@ -3759,7 +3761,7 @@ end;
 
 procedure InitBipc(var PJ : TCustomProj);
 begin
- // судя по результату - если задано то Юж.полушарие
+ // judging by the result - if given then the Southern hemisphere
  PJ.Ellps.es:=0;
  PJ.fForward:=BipcForward;
  PJ.fInverse:=BipcInverse;
@@ -4634,16 +4636,16 @@ begin
   if PJ.k0=0 then PJ.k0:=1;
  
   PJ.Lc    := Bc;
-  // с альфой у них не работает !!!
-  // задана альфа
-  {   ИХНИЙ КОД (ВЕСЬ)
+  // they do not work with alpha !!!
+  // alpha is set
+  {   THEIR CODE (ALL)
   double phi_0=0.0, phi_1, phi_2, lam_1, lam_2, lonz, alpha;
   alpha	= pj_param(P->params, "ralpha").f;
   lonz = pj_param(P->params, "rlonc").f;
   P->singam = atan(-cos(alpha)/(-sin(phi_0) * sin(alpha))) + lonz;
   P->sinphi = asin(cos(phi_0) * sin(alpha));
   }
-  // СООТВЕТСВИЕ КОДУ на Delphi
+  // CODE MATCHING in Delphi
 
   with PJ.PM do
   begin
@@ -4995,9 +4997,9 @@ begin
   z  := 2* arctan(0.5 * rh);
   sinz := sin(z);
   cosz := cos(z);
-  // нормализация PS: у них ее нет
-  // поэтому в точке X:0 Y:0 широта и долгота отличается от
-  // широты-долготы центра КС на целое ПОЛУШАРИЕ !!!
+  // normalization, PS: they don't have it
+  // so at point X: 0 Y: 0 latitude and longitude are different from
+  // latitude-longitude of the center of the CS for the whole HEMISPHERE !!!
   result.lam := 0;
   result.phi := PJ.C0.phi;
   if abs(rh)<=1e-10 then exit;
@@ -6128,7 +6130,7 @@ begin
 end;
 
 
-// РАБОТАЕТ
+// WORKS
 function AeqdFwdGuamElliptical(pntBL: T3dPoint; PJ : PCustomProj):T3dPoint; //  Guam elliptical
 var cosphi, sinphi, t : double;
 begin
@@ -6139,7 +6141,7 @@ begin
  result.y := pj_mlfn(pntBL.phi,sinphi,cosphi,PJ.PM.en)-PJ.PM.Cx+0.5*sqr(pntBL.lam)*cosphi*sinphi*t;
 end;
 
-// РАБОТАЕТ
+// WORKS
 function AeqdInvGuamElliptical(pntXY: T3dPoint; PJ : PCustomProj):T3dPoint; //  Guam elliptical
 var	x2,t : double;
 	i    : integer;
@@ -6155,7 +6157,7 @@ begin
  result.lam := pntXY.x*t/cos(result.phi);
 end;
 
-// РАБОТАЕТ
+// WORKS
 function AeqdFwdElliptical(pntBL: T3dPoint; PJ : PCustomProj):T3dPoint; // elliptical
 var coslam,cosphi,sinphi,rho,s,H2,Az,t: double;
 begin
@@ -6191,7 +6193,7 @@ begin
   end; // case
 end;
 
-// РАБОТАЕТ
+// WORKS
 function AeqdFwdSpherical(pntBL: T3dPoint; PJ : PCustomProj):T3dPoint; // spherical */
 var coslam,cosphi,sinphi,_phi : double;
 begin
@@ -6737,7 +6739,7 @@ begin
 end;
 
 // =============================================================================
-// ГАУСА-КРЮГЕРА
+// GAUSS-KRUGER
 function GaussForward(lp : T3dPoint;PJ:PCustomProj): T3dPoint;
 var N, X, l_ro, l_ro2, T2, n2, Long: extended;
     Zone : byte;
@@ -6761,7 +6763,7 @@ begin
 end;
 
 
-// ГАУСА-КРЮГЕРА
+// GAUSS-KRUGER
 function GaussInverse(PntXY : T3dPoint;PJ:PCustomProj): T3dPoint;
 var  L0, B, n2, t2, y, y2, cosB : extended;
      rMax, rMin, delta : extended;
@@ -6813,14 +6815,14 @@ begin
   result:=GaussForward(lp, PJ);
   with result do
   begin
-   // приводим
+   // cite
    x := (PJ.Ellps.a*x+PJ.x0)/PJ.to_meter;
    y := (PJ.Ellps.a*y+PJ.y0)/PJ.to_meter;
-   // смещаем
+   // shift
    X:=X-3.3*Y*1E-6+1.8*Z*1E-6+25;
    Y:= 3.3*X*1E-6+Y-141;
    Z:=-1.8*X*1E-6 + Z-80;
-   // возвращаем
+   // return
    x := (PJ.to_meter*x-PJ.x0)/PJ.Ellps.a;
    y := (PJ.to_meter*y-PJ.y0)/PJ.Ellps.a;
   end;
@@ -6844,7 +6846,7 @@ begin
   result:=GaussInverse(fPoint, PJ);
 end;
 
-// инициализируем так как в проекции Гауса Крюгерра
+// initialize as in the Gauss-Krugerr projection
 procedure InitPZ90(var PJ : TCustomProj);
 begin
   PJ.C0.phi:=0; PJ.C0.lam:=0;
@@ -6859,14 +6861,14 @@ begin
   result:=GaussForward(lp, PJ);
   with result do
   begin
-   // приводим
+   // cite
    x := (PJ.Ellps.a*x+PJ.x0)/PJ.to_meter;
    y := (PJ.Ellps.a*y+PJ.y0)/PJ.to_meter;
-   // смещаем
+   // shift
    X:=(X-3.3*Y*1E-6+1.8*Z*1E-6+25)-25.9;
    Y:=(3.3*X*1E-6+Y-141)+130.94;
    Z:=(-1.8*X*1E-6+Z-80)-81.76;
-   // возвращаем
+   // return
    x := (PJ.to_meter*x-PJ.x0)/PJ.Ellps.a;
    y := (PJ.to_meter*y-PJ.y0)/PJ.Ellps.a;
   end;
@@ -6890,7 +6892,7 @@ begin
   result:=GaussInverse(fPoint, PJ);
 end;
 
-// инициализируем так как в проекции Гауса Крюгерра
+// initialize as in the Gauss-Krugerr projection
 procedure InitCK95(var PJ : TCustomProj);
 begin
   PJ.C0.phi:=0; PJ.C0.lam:=0;
@@ -7842,7 +7844,7 @@ begin
  if PJ.errno<>0 then exit;
 
 
- // "-- ???"  ==> НЕ РАБОТАЕТ !!!
+ // "-- ???"  ==> DOES NOT WORK !!!
 
  with PJ.Other do
 
@@ -7906,7 +7908,7 @@ begin
 
   033: InitGnomonic(PJ);
 
-  034: InitGoode(PJ);                // + (! Использует 2 другие проекции !!!!)
+  034: InitGoode(PJ);                // + (! Uses 2 other projections !!!!)
 
   035: InitSpecStereo(PJ,2);
 
@@ -7916,7 +7918,7 @@ begin
 
   038: InitHatano(PJ);
 
-  039: InitIMWPolyconic(PJ,PJ.b1,Pj.b2,Pj.l1);    // +  XY->BL у них зацикливается в 0 КС!!!
+  039: InitIMWPolyconic(PJ,PJ.b1,Pj.b2,Pj.l1);    // +  XY->BL they get stuck in 0 CS!!!
 
   040: InitKav5(PJ);
 
@@ -7972,17 +7974,17 @@ begin
 
   069: InitNicol(PJ);
 
-  070: InitPerspective(PJ,H,Gamma,Omega,false);   // хочет очень маленькие значения (XY до 9000 м и BL до 10 сек)
+  070: InitPerspective(PJ,H,Gamma,Omega,false);   // wants very small values (XY up to 9000 m and BL up to 10 sec)
 
-  071: InitNewZeland(PJ);                         // не отлажена
+  071: InitNewZeland(PJ);                         // not debugged
 
-  //072: InitGOT(PJ);                             // отдельно (транслятор проекций в UTM)
+  //072: InitGOT(PJ);                             // separately (translator of projections to UTM)
 
    073: case byte(IsInfinite(Alpha)) of
 
         1: InitOCEA(PJ,PJ.b1,Pj.b2,Pj.l1,Pj.l2);
 
-        0: InitOCEA(PJ,Alpha,Bo);                // + у них не работает с альфой
+        0: InitOCEA(PJ,Alpha,Bo);                // + they do not work with alpha
 
        end;
 
@@ -8008,7 +8010,7 @@ begin
 
   089: InitQuarticAuth(PJ);
 
-  090: InitRobinson(PJ);                 // + неточно (ошибка +-0.12 сек на >178 мередиане)
+  090: InitRobinson(PJ);                 // + inaccurate (error + -0.12 sec on> 178 meridian)
 
   091: InitRPoly(PJ,PJ.Bts);
 
@@ -8016,7 +8018,7 @@ begin
 
   093: InitSWMercator(PJ);
 
-  094: InitStereographic(PJ,PJ.Bts);     // + у них неработает (проверено а Autocad2005)
+  094: InitStereographic(PJ,PJ.Bts);     // + they do not work (checked by Autocad 2005)
 
   095: InitTransCC(PJ);
 
@@ -8028,7 +8030,7 @@ begin
 
   099: InitTwoPointED(PJ,PJ.b1,Pj.b2,Pj.l1,Pj.l2);
 
-  100: InitPerspective(PJ,H,Gamma,Omega,true); // хочет  очень маленькие значения (XY до 9000 м и BL до 10 сек)
+  100: InitPerspective(PJ,H,Gamma,Omega,true); // wants very small values (XY up to 9000 m and BL up to 10 sec)
 
   101: InitInterStereo(PJ,PJ.Bts);
 
@@ -8058,7 +8060,7 @@ begin
 
   123: InitGeocentric(PJ);
 
-  124: InitGaussKruger(PJ);                   // + МОЯ (коорд.по закону карт СССР)
+  124: InitGaussKruger(PJ);                   // + MY (coordinates according to the law of maps of the USSR)
 
  end;
 
@@ -8230,7 +8232,7 @@ begin
 end;
 
 // ================= Addition procedures =======================
-// СК 1942 год разграфка листов
+// CK 1942 sheet cutout
 function _FormatSubquad(Value : TNomenLess100; iScale:integer):string;
 begin
   result:='';
@@ -8329,7 +8331,7 @@ begin
   end;
   B0:=B0-1200*Trunc(B0/1200);
   L0:=L0-1800*Trunc(L0/1800);
-  // уже все в секундах (округленых до 100000(1км) квадрата)
+  // already everything in seconds (rounded up to 100000 (1km) square)
   case Value.iScale of
    4: Value.SubQuad.Q50:=TNumberQuad(byte((1-Trunc(B0/600))*2+Trunc(L0/900)+1));
    5: begin
@@ -8358,10 +8360,10 @@ begin
   if result='' then result:='=error scale=';
 end;
 
-// RECT1KM   : базовая рамка в секундах номенклатуры 1 км
-// ScaleIndex: 0 - 500м         1 - 250м        2 - 100м        5- 50м
-// sQuad     : А - 500м         А-а - 250м      А-А-а - 100м    001 - 50м
-//  или      : 1 - 500м         1-1 - 250м      1-1-1 - 100м    001 - 50м
+// RECT1KM   : base frame in nomenclature seconds 1 km
+// ScaleIndex: 0 - 500m         1 - 250m        2 - 100m        5- 50m
+// sQuad     : А - 500m         А-а - 250m      А-А-а - 100m    001 - 50m
+//  or       : 1 - 500m         1-1 - 250m      1-1-1 - 100m    001 - 50m
 
 procedure DecodeSmallNomenclature(var R1KM : TQLongLat; ScaleIndex : byte; const Quad : string);
 var i,n    : integer;
@@ -8454,24 +8456,24 @@ begin
   FillChar(result, SizeOf(TQLongLat),0);
   sQuad   := Trim(Quad);
   result.Error:=true;
-  // проверка формата 0.А-00-00...
+  // format check 0.А-00-00...
   if (Pos('.',sQuad)=2) then
   begin
    result.IsSouth:= byte(Pos('1.',sQuad)=1);
    Delete(sQuad,1,2);
   end;
-  // минимальная номенклатура  А-00 4 знаков и с тире
+  // minimum nomenclature  А-00 4 characters and with a dash
   ps := pos('-',sQuad);
   if (LenGth(sQuad)<4) or (ps<1) then exit;
-  // проверка, первая буква или число А-00-00...
+  // check, first letter or number А-00-00...
   Row:=Pos(sQuad[1], cdata)-1;
-  if row<1 then // число
+  if row<1 then // number
   begin
    Row:= StrToIntDef(Copy(sQuad,1,2),-1)-1;
    Delete(sQuad,1,3);
   end else
   Delete(sQuad,1,2);
-  // выбираем столбец
+  // select a column
   Col:= StrToIntDef(Copy(sQuad,1,2),-1)-1;
   Delete(sQuad,1,2);
   if (Col<0) or (Row<0) or (Row>22) or (Col>60) then exit;
@@ -8481,13 +8483,13 @@ begin
   end;
   // -1  -01 -001 -001-А -001-А-а -001-А-А-а -001-001
   case LenGth(sQuad) of
-   0: Scale := 0; // 10 км
-   2: Scale := 1; // 5 км
-   3: Scale := 2; // 2 км
-   4: Scale := 3; // 1 км
-   6: Scale := 4; // 500 м
-   8: Scale := 5+2*byte(sQuad[7]<>'-');   // 250 м или 50 м
-  10: Scale := 6; // 100 м
+   0: Scale := 0; // 10 km
+   2: Scale := 1; // 5 km
+   3: Scale := 2; // 2 km
+   4: Scale := 3; // 1 km
+   6: Scale := 4; // 500 m
+   8: Scale := 5+2*byte(sQuad[7]<>'-');   // 250 m or 50 m
+  10: Scale := 6; // 100 m
    else
     exit;
   end;
@@ -8501,7 +8503,7 @@ begin
   // 1  01 001 001-А 001-А-а 001-А-А-а 001-001
   if Scale>0 then delete(sQuad,1,1);
   case Scale of
-  0:;//заглушка  10 km
+  0:;//plug  10 km
   1: begin   // 5 km    1
       N := ord(sQuad[1])-ord('1');
       if Not(N  in [0..3]) then exit;
@@ -8518,7 +8520,7 @@ begin
       result.B1:=result.B0+ 2400;//+2*result.IsSouth ;
       result.L1:=result.L0+ 3600;//+2*byte(result.L0<0);
      end;
-  else   // 1 km и крупнее  001
+  else   // 1 km and larger  001
     N:=StrToIntDef(Copy(sQuad,1,3),-1)-1;
     if Not(N in [0..143]) then exit;
     result.B0:=result.B0+(11-(N div 12))*1200;
