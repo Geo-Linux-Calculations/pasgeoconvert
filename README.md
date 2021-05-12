@@ -1,3 +1,9 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Geo-Linux-Calculations/pasgeoconvert)
+![GitHub Release Date](https://img.shields.io/github/release-date/Geo-Linux-Calculations/pasgeoconvert)
+![GitHub repo size](https://img.shields.io/github/repo-size/Geo-Linux-Calculations/pasgeoconvert)
+![GitHub all releases](https://img.shields.io/github/downloads/Geo-Linux-Calculations/pasgeoconvert/total)
+![GitHub](https://img.shields.io/github/license/Geo-Linux-Calculations/pasgeoconvert)
+
 # PasGeoConvert.
 
 28 Feb 2015  
